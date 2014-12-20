@@ -21,6 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.BorderFactory;
 
 
 public class GUI {
@@ -197,6 +198,13 @@ public class GUI {
 				sliderChanged();
 			}
 		});
+		
+		slider.setBorder(BorderFactory.createTitledBorder("Kopsavilkuma apjoms procentos no sâkumâ teksta!"));
+		slider.setMinorTickSpacing(5);
+		slider.setPaintTicks(true);
+		slider.setMajorTickSpacing(25);
+		slider.setPaintLabels(true);
+		slider.setPreferredSize(new Dimension(600,70));
 		
 		//Parada logu
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
