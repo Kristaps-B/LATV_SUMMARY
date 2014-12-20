@@ -6,6 +6,10 @@ public class Sentence {
 	
 	private ArrayList <String> wordList = new ArrayList<>();
 	
+	private final int ID;
+	
+	private double rank;
+	
 	//Stop vardu saraksts
 	private String [] stopWordArray = {
 	"aiz",
@@ -183,12 +187,23 @@ public class Sentence {
 	"kas",
 	"viòğ",
 	"daudz",
-	"tâm"
+	"tâm",
+	"ir",
+	"tâdas",
+	"viòi",
+	"tas",
+	"to",
+	"nav",
+	"mûs",
+	"viòus",
+	"viòiem"
+	
 	};
 	
-	public Sentence(String originalSentence)
+	public Sentence(int ID, String originalSentence)
 	{
 		this.originalSentence = originalSentence;
+		this.ID = ID;
 		
 		createWordList();
 	}
@@ -199,21 +214,24 @@ public class Sentence {
 		String tempSentence = originalSentence.replaceAll("[^a-zA-ZÂÈÇÌÎÍÏÒĞÛŞâèçìîíïòğûş ]", "").replaceAll("  ", " ").toLowerCase();
 		
 		String [] wordArray = tempSentence.split(" ");
-				
+		
+		/*
 		System.out.println("=============================================");
 		System.out.println("Teikuma apstrade!");
 		System.out.println("Pagaidu teikums: "+tempSentence);
+		*/
 		
 		//Pievieno vardu sarakstam svarigos vardus
 		for (int i=0;i<wordArray.length;i++)
 		{
 			//System.out.print(wordArray[i]+" ");
-			if (!isStopWord(wordArray[i]))
+			if (!isStopWord(wordArray[i]) && wordArray[i].length()>0)
 			{
 				wordList.add(wordArray[i]);
 			}
 		}
 		
+		/*
 		System.out.println("Teikums ar svarigajiem vardiem:");
 		for (String w: wordList)
 		{
@@ -222,7 +240,7 @@ public class Sentence {
 
 		
 		System.out.println("=============================================");
-		
+		*/
 	}
 	
 	private boolean isStopWord(String word)
@@ -260,6 +278,21 @@ public class Sentence {
 		}
 		
 		return rez;
+	}
+	
+	public int getID()
+	{
+		return ID;
+	}
+	
+	public double getRank()
+	{
+		return rank;
+	}
+	
+	public void setRank(double rank)
+	{
+		this.rank = rank;
 	}
 	
 	

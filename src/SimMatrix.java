@@ -14,7 +14,7 @@ public class SimMatrix {
 	
 	public void createMatrix()
 	{
-		System.out.println("Veido matricu!");
+		//System.out.println("Veido matricu!");
 		
 		//findSentenceSimilarity(new Sentence("Mani sauc Kristaps."), new Sentence("Govs mani dzivo kaut kur."));
 		int dimension = sentenceList.size();
@@ -29,15 +29,19 @@ public class SimMatrix {
 		}
 		
 		//Izvada
+		/*
 		System.out.println("Izvada matricu: ");
 		for (int i=0; i<simMatrix.length;i++)
 		{
+			
 			for (int j=0;j<simMatrix[i].length;j++)
 			{
 				System.out.print(simMatrix[i][j]+" | ");
 			}
 			System.out.println();
 		}
+		*/
+		
 			
 	}
 	
@@ -63,13 +67,15 @@ public class SimMatrix {
 			
 		}
 		
-		//System.out.println("Abu teikumu visi vardi ir: ");
 		/*
+		System.out.println("Abu teikumu visi vardi ir: ");
+		
 		for (String w: wordList)
 		{
 			System.out.println(w);
 		}
 		*/
+		
 		
 		//Novertejums 
 		int [] vector_1 = new int [wordList.size()];
@@ -110,6 +116,8 @@ public class SimMatrix {
 		float a_kv2 = 0;
 		float b_kv2 = 0;
 		
+		
+		//System.out.println("--------------------------------------------------------------");
 		for (int i=0;i < vector_1.length;i++)
 		{
 			//System.out.println(wordList.get(i)+" | "+vector_1[i]+" | "+vector_2[i]);
@@ -122,6 +130,7 @@ public class SimMatrix {
 			
 		}
 		
+		
 		double cosO = a_b/((Math.sqrt(a_kv2)*Math.sqrt(b_kv2)));
 		
 		//cosO = Math.acos(cosO);
@@ -129,7 +138,7 @@ public class SimMatrix {
 		
 
 
-		cosO = Math.round(cosO*100.0)/100.0;
+		cosO = Math.round(cosO*1000.0)/1000.0;
 
 
 		

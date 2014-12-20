@@ -12,10 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,14 +29,20 @@ public class GUI {
 	private JPanel centerPanel_1;
 	private JPanel centerPanel_2;
 	private JPanel centerPanel_3;
+	private JPanel centerPanel_4;
 	private JPanel northPanel;
 	private JTextArea textArea;
+	private JTextArea summTextArea;
 	private JTextField fileText;
 	private JButton loadButton;
 	private JTable sentTable;
 	private JTable simTable;
 	private DefaultTableModel sentTableModel;
 	private DefaultTableModel simTableModel;
+	private Summarizer summarizer;
+	private ArrayList <Sentence> sentenceList;
+	
+	private JSlider slider;
 	
 	
 	//Izveido grafisko interfeisu
@@ -53,12 +62,14 @@ public class GUI {
 		centerPanel_1 = new JPanel();
 		centerPanel_2 = new JPanel();
 		centerPanel_3 = new JPanel();
+		centerPanel_4 = new JPanel();
 		
 		northPanel = new JPanel();
 		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
 		jtb.addTab("Teksta teikumi", centerPanel_2);
 		jtb.addTab("Teikumu lîdzibas matrica", centerPanel_3);
+		jtb.addTab("Kopsavilkums", centerPanel_4);
 		
 		frame.add(jtb,BorderLayout.CENTER);
 		frame.add(northPanel,BorderLayout.NORTH);
@@ -69,6 +80,13 @@ public class GUI {
 		textArea.setEnabled(false);
 		textArea.setLineWrap(true);
 		centerPanel_1.add(scrollPane);
+		
+		//Veido kopsavilkuma teksta logu
+		summTextArea = new JTextArea("",18,70);
+		JScrollPane summScrollPane = new JScrollPane(summTextArea);
+		summTextArea.setEnabled(false);
+		summTextArea.setLineWrap(true);
+		centerPanel_4.add(summScrollPane);
 		
 		//Izveido faila ieladi
 		northPanel.setLayout(new FlowLayout());
@@ -106,7 +124,7 @@ public class GUI {
 		);
 		
 		//Pievieno teikumu tabulu
-		sentTableModel = new DefaultTableModel(0,3)
+		sentTableModel = new DefaultTableModel(0,0)
 		{
 			/**
 			 * 
@@ -123,7 +141,7 @@ public class GUI {
 		
 		
 		
-		String [] columns = {"Nr.","Originalais teikums","Teikums bez apstâðanas vârdiem un punktuâcijâs zîmçm"};
+		String [] columns = {"Nr.","Originalais teikums","Teikums bez apstâðanas vârdiem un punktuâcijâs zîmçm", "TextRank vçrtçjums"};
 		
 		sentTableModel.setColumnIdentifiers(columns);
 		
@@ -137,7 +155,7 @@ public class GUI {
 		sentTable.getColumnModel().getColumn(0).setPreferredWidth(40);
 		sentTable.getColumnModel().getColumn(1).setPreferredWidth(440);
 		sentTable.getColumnModel().getColumn(2).setPreferredWidth(400);
-		
+		sentTable.getColumnModel().getColumn(3).setPreferredWidth(200);
 		
 		
 		centerPanel_2.add(tableScrollPane);
@@ -167,6 +185,19 @@ public class GUI {
 		simTable.setPreferredScrollableViewportSize(new Dimension(680,300));	
 		centerPanel_3.add(simTableScrollPane);
 		
+		//Izveido slaideru
+		slider = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		slider.setEnabled(false);
+		centerPanel_4.add(slider);
+		
+		slider.addChangeListener(new ChangeListener()
+		{
+			public void stateChanged(ChangeEvent e)
+			{
+				sliderChanged();
+			}
+		});
+		
 		//Parada logu
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
@@ -181,6 +212,12 @@ public class GUI {
 		
 		String text = loader.getFileContent();
 		
+		processText(text);
+		
+	}
+	
+	private void processText(String text)
+	{
 		//Pievieno tekstu
 		textArea.setEnabled(true);
 		textArea.setText(text);
@@ -189,7 +226,7 @@ public class GUI {
 		TextProcessing textProcessing = new TextProcessing(text);
 		textProcessing.splitIntoSentences();
 		
-		ArrayList <Sentence> sentenceList = textProcessing.getSentenceList();
+		sentenceList = textProcessing.getSentenceList();
 		
 		SimMatrix simMatrix = new SimMatrix(sentenceList);
 		simMatrix.createMatrix();
@@ -197,10 +234,24 @@ public class GUI {
 		double [][] simMatrixRes = simMatrix.getSimMatrix();
 		
 		
+		//Veic textrank algoritmu
+		TextRank textRank = new TextRank(simMatrixRes);
+		textRank.startTextRank();
+		
+		double [] sentRank = textRank.getScoreVector();
+		
+		
+		for (int i = 0; i< sentRank.length; i++)
+		{
+			sentenceList.get(i).setRank(sentRank[i]);
+		}
+		
+		
+		
+		
 		showText(sentenceList);
-		
 		showSimMatrix(simMatrixRes);
-		
+		showSummary(sentenceList);
 	}
 	
 	private void showText(ArrayList <Sentence> sentenceList)
@@ -209,6 +260,7 @@ public class GUI {
 		
 		sentTableModel.setRowCount(sentenceList.size());
 		
+		
 		for (Sentence s:sentenceList)
 		{
 			sentTableModel.setValueAt(""+(i+1), i, 0);
@@ -216,6 +268,8 @@ public class GUI {
 			sentTableModel.setValueAt(s.getOriginalSentence(), i, 1);
 			
 			sentTableModel.setValueAt(s.getNewSentence(), i, 2);
+			
+			sentTableModel.setValueAt(s.getRank()+"", i, 3);
 			
 			i++;
 		}
@@ -233,20 +287,52 @@ public class GUI {
 			{
 				if (j == 0)
 				{
-					simTableModel.setValueAt(""+i, i, j);
+					simTableModel.setValueAt(""+i, j, i);
 				}
 				else if (i == 0)
 				{
-					simTableModel.setValueAt(""+j, i, j);
+					simTableModel.setValueAt(""+j, j, i);
 				}
 				else
 				{
-					simTableModel.setValueAt(""+simMatrixRes[j-1][i-1], i, j);
+					simTableModel.setValueAt(""+simMatrixRes[j-1][i-1], j, i);
 				}
 				simTableModel.setValueAt("", 0, 0);
 			}
 		}
 		
 		
+	}
+	
+	private void showSummary(ArrayList <Sentence> sentenceList)
+	{
+		//Parada kopsavilkumu
+		summarizer = new Summarizer(sentenceList);
+		
+		int n_max = sentenceList.size();
+		
+		int proc = slider.getValue();
+		
+		int n = (int)Math.round(n_max *(proc/100.0));
+		
+		//System.out.println("Panem: "+n);
+		
+		Sentence [] sentArray = summarizer.getNSentences(n);
+		
+		String summary = "";
+		
+		for (int i=0; i<sentArray.length; i++)
+		{
+			summary += sentArray[i].getID()+ ") <Rangs: "+sentArray[i].getRank()+"> "+sentArray[i].getOriginalSentence() + "\n";
+		}
+		
+		slider.setEnabled(true);
+		summTextArea.setEnabled(true);
+		summTextArea.setText(summary);
+	}
+	
+	public void sliderChanged()
+	{
+		showSummary(sentenceList);
 	}
 }

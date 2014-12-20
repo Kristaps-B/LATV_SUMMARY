@@ -17,6 +17,8 @@ public class TextProcessing {
 	{
 		String sentence = "";
 		
+		int id = 1;
+		
 		for (int i = 0;i<text.length();i++)
 		{
 			char character = text.charAt(i);
@@ -29,7 +31,9 @@ public class TextProcessing {
 				if (character=='.' || character=='!' || character == '?')
 				{
 					sentence = sentence.trim();
-					sentenceList.add(new Sentence(sentence));
+					sentenceList.add(new Sentence(id, sentence));
+					
+					id++;
 					
 					sentence ="";
 				}
