@@ -1,4 +1,6 @@
+package Model;
 import java.util.ArrayList;
+
 
 
 public class Summarizer {
@@ -82,6 +84,7 @@ public class Summarizer {
 		return rez;
 	}
 	
+	/*
 	private void printSentences(Sentence [] sentArray)
 	{
 		System.out.println("Izvada masivu!");
@@ -90,6 +93,7 @@ public class Summarizer {
 			System.out.println(sentArray[i].getID()+"] <Rangs: "+sentArray[i].getRank()+"> "+sentArray[i].getOriginalSentence());
 		}
 	}
+	*/
 	
 	public Sentence [] getNSentences (int n)
 	{

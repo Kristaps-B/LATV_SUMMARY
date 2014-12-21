@@ -1,49 +1,42 @@
+package Model;
+
 import java.util.ArrayList;
 
-
-public class SimMatrix {
+public class SentenceComparison {
 	
-	private ArrayList <Sentence> sentenceList = null;
+	private String [] wordArr = null;
+	private int [] firstSentVector = null;
+	private int [] secondSentVector = null;
 	
-	private double [][] simMatrix = null;
+	private Sentence s1 = null;
+	private Sentence s2 = null;
 	
-	public SimMatrix(ArrayList <Sentence> sentenceList)
+	private double rank = 0;
+	
+	public SentenceComparison(Sentence s1, Sentence s2)
 	{
-		this.sentenceList = sentenceList;
+		
+		this.s1 = s1;
+		this.s2 = s2;
+		
+		rank = findSentenceSimilarity(this.s1, this.s2);
 	}
 	
-	public void createMatrix()
+	public String [] getWordArr()
 	{
-		//System.out.println("Veido matricu!");
-		
-		//findSentenceSimilarity(new Sentence("Mani sauc Kristaps."), new Sentence("Govs mani dzivo kaut kur."));
-		int dimension = sentenceList.size();
-		simMatrix = new double[dimension][dimension];
-		
-		for (int i=0; i<simMatrix.length;i++)
-		{
-			for (int j=0;j<simMatrix[i].length;j++)
-			{
-				simMatrix[i][j] = findSentenceSimilarity(sentenceList.get(i), sentenceList.get(j));
-			}
-		}
-		
-		//Izvada
-		/*
-		System.out.println("Izvada matricu: ");
-		for (int i=0; i<simMatrix.length;i++)
-		{
-			
-			for (int j=0;j<simMatrix[i].length;j++)
-			{
-				System.out.print(simMatrix[i][j]+" | ");
-			}
-			System.out.println();
-		}
-		*/
-		
-			
+		return wordArr;
 	}
+	
+	public int [] getFirstSentRank()
+	{
+		return firstSentVector;
+	}
+	
+	public int [] getSecondSentRank()
+	{
+		return secondSentVector;
+	}
+	
 	
 	private double findSentenceSimilarity(Sentence s1, Sentence s2)
 	{
@@ -67,19 +60,12 @@ public class SimMatrix {
 			
 		}
 		
-		/*
-		System.out.println("Abu teikumu visi vardi ir: ");
-		
-		for (String w: wordList)
-		{
-			System.out.println(w);
-		}
-		*/
-		
-		
 		//Novertejums 
 		int [] vector_1 = new int [wordList.size()];
 		int [] vector_2 = new int [wordList.size()];
+		
+		
+		
 		
 		//Noverte pirmo teikumu
 		for (int i=0; i<vector_1.length;i++)
@@ -116,14 +102,8 @@ public class SimMatrix {
 		float a_kv2 = 0;
 		float b_kv2 = 0;
 		
-		
-		//System.out.println("--------------------------------------------------------------");
 		for (int i=0;i < vector_1.length;i++)
 		{
-			//System.out.println(wordList.get(i)+" | "+vector_1[i]+" | "+vector_2[i]);
-			
-			//Aprekina visus mainigos 
-			
 			a_b = a_b + vector_1[i]*vector_2[i];
 			a_kv2 = a_kv2 + vector_1[i]*vector_1[i];
 			b_kv2 = b_kv2 + vector_2[i]*vector_2[i];
@@ -132,13 +112,20 @@ public class SimMatrix {
 		
 		
 		double cosO = a_b/((Math.sqrt(a_kv2)*Math.sqrt(b_kv2)));
-		
-		//cosO = Math.acos(cosO);
-		//System.out.println("Tuvums ir: "+cosO);
-		
-
 
 		cosO = Math.round(cosO*1000.0)/1000.0;
+		
+		
+		wordArr = new String[wordList.size()];
+		int k = 0;
+		for (String w:wordList)
+		{
+			wordArr[k] = wordList.get(k);
+			k++;
+		}
+		
+		firstSentVector = vector_1;
+		secondSentVector = vector_2;
 
 
 		
@@ -165,8 +152,6 @@ public class SimMatrix {
 		word1 = word1.toLowerCase();
 		word2 = word2.toLowerCase();
 		
-		
-		//Mekle garako kopejo simbolu rinki!
 		commonSubstring = longestCommonSubstring(word1, word2);
 		
 		return commonSubstring;
@@ -208,11 +193,28 @@ public class SimMatrix {
 		return false;
 	}
 	
-	public double [][] getSimMatrix()
+	public double getRank()
 	{
-		return simMatrix;
+		return rank;
 	}
 	
+	public String getFirstSentence()
+	{
+		return s1.getOriginalSentence();
+	}
 	
-
+	public String getSecondSentence()
+	{
+		return s2.getOriginalSentence();
+	}
+	
+	public int getFirstSentenceID()
+	{
+		return s1.getID();
+	}
+	
+	public int getSecondSentenceID()
+	{
+		return s2.getID();
+	}
 }

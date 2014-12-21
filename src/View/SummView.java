@@ -1,15 +1,20 @@
+package View;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
+import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -17,14 +22,16 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BorderFactory;
 
+import Model.Sentence;
+import Model.SentenceComparison;
 
-public class GUI {
+
+public class SummView extends View {
 	
 	private JFrame frame;
 	private JPanel centerPanel_1;
@@ -40,32 +47,53 @@ public class GUI {
 	private JTable simTable;
 	private DefaultTableModel sentTableModel;
 	private DefaultTableModel simTableModel;
-	private Summarizer summarizer;
-	private ArrayList <Sentence> sentenceList;
 	
 	private JSlider slider;
 	
 	
 	//Izveido grafisko interfeisu
+	@Override
 	public void createGUI()
+	{
+		createWindow();
+		createPannels();
+		createTextArea();
+		createSummTextArea();
+		createFileLoading();
+		createSentenceTable();
+		createSentenceSimilarityMatrix();
+		createSlider();
+		showAll();
+	}
+	
+	private void createWindow()
 	{
 		//Veido logu
 		frame = new JFrame("LATV_SUMMARY (Kristaps Babrovskis ITI) ");
 		frame.setSize(840,480);
 		frame.setLayout(new BorderLayout());
 		
+		
+	}
+	
+	private void showAll()
+	{
+		//Parada logu
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+	
+	private void createPannels()
+	{
 		//Izveido panelus
 		JTabbedPane jtb = new JTabbedPane();
-		
-		
-		
 		
 		centerPanel_1 = new JPanel();
 		centerPanel_2 = new JPanel();
 		centerPanel_3 = new JPanel();
 		centerPanel_4 = new JPanel();
-		
 		northPanel = new JPanel();
+		
 		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
 		jtb.addTab("Teksta teikumi", centerPanel_2);
@@ -74,21 +102,30 @@ public class GUI {
 		
 		frame.add(jtb,BorderLayout.CENTER);
 		frame.add(northPanel,BorderLayout.NORTH);
-		
+	}
+	
+	private void createTextArea()
+	{
 		//Veido teksta logu
 		textArea = new JTextArea("",18,70);
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		textArea.setEnabled(false);
 		textArea.setLineWrap(true);
 		centerPanel_1.add(scrollPane);
-		
+	}
+	
+	private void createSummTextArea()
+	{
 		//Veido kopsavilkuma teksta logu
 		summTextArea = new JTextArea("",18,70);
 		JScrollPane summScrollPane = new JScrollPane(summTextArea);
 		summTextArea.setEnabled(false);
 		summTextArea.setLineWrap(true);
 		centerPanel_4.add(summScrollPane);
-		
+	}
+	
+	private void createFileLoading()
+	{
 		//Izveido faila ieladi
 		northPanel.setLayout(new FlowLayout());
 		northPanel.add(new JLabel("Ielâdçt teksta failu: "));
@@ -98,32 +135,10 @@ public class GUI {
 		
 		loadButton = new JButton("...");
 		northPanel.add(loadButton);
-		
-		loadButton.addActionListener(new ActionListener()
-			{
-				public void actionPerformed(ActionEvent e)
-				{
-					JFileChooser fileDialog = new JFileChooser();
-					FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES","txt","text");
-					fileDialog.setFileFilter(filter);
-					int returnValue = fileDialog.showOpenDialog(frame);
-					
-					if (returnValue == JFileChooser.APPROVE_OPTION)
-					{
-						//Ielade failu
-						File file = fileDialog.getSelectedFile();
-						fileText.setText(file.getAbsolutePath());
-						
-						loadFile(file);
-					}
-					else
-					{
-						//Nekas netika izvelets!
-					}
-				}
-			}
-		);
-		
+	}
+	
+	private void createSentenceTable()
+	{
 		//Pievieno teikumu tabulu
 		sentTableModel = new DefaultTableModel(0,0)
 		{
@@ -160,8 +175,10 @@ public class GUI {
 		
 		
 		centerPanel_2.add(tableScrollPane);
-		
-		
+	}
+	
+	private void createSentenceSimilarityMatrix()
+	{
 		//Pievieno teikumu tuvibas tabulu
 		simTableModel = new DefaultTableModel(0,0)
 		{
@@ -184,20 +201,17 @@ public class GUI {
 		
 		simTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		simTable.setPreferredScrollableViewportSize(new Dimension(680,300));	
-		centerPanel_3.add(simTableScrollPane);
 		
+		centerPanel_3.add(new JLabel("Nospieþot uz tabulas ðûnas, var apskatît sîkâku informâciju"));
+		centerPanel_3.add(simTableScrollPane);
+	}
+	
+	private void createSlider()
+	{
 		//Izveido slaideru
 		slider = new JSlider(JSlider.HORIZONTAL,0,100,50);
 		slider.setEnabled(false);
 		centerPanel_4.add(slider);
-		
-		slider.addChangeListener(new ChangeListener()
-		{
-			public void stateChanged(ChangeEvent e)
-			{
-				sliderChanged();
-			}
-		});
 		
 		slider.setBorder(BorderFactory.createTitledBorder("Kopsavilkuma apjoms procentos no sâkumâ teksta!"));
 		slider.setMinorTickSpacing(5);
@@ -205,64 +219,72 @@ public class GUI {
 		slider.setMajorTickSpacing(25);
 		slider.setPaintLabels(true);
 		slider.setPreferredSize(new Dimension(600,70));
-		
-		//Parada logu
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		
 	}
 	
-	private void loadFile(File file)
+	@Override
+	public void addLoadButtonEvent(ActionListener actionListener)
 	{
-		FileLoader loader = new FileLoader();
-		
-		loader.loadFile(file);
-		
-		String text = loader.getFileContent();
-		
-		processText(text);
+		loadButton.addActionListener(actionListener);
 		
 	}
 	
-	private void processText(String text)
+	@Override
+	public void setFileTextField(String text)
+	{
+		fileText.setText(text);
+	}
+	
+	@Override
+	public File showFileDialog()
+	{
+		File file = null;
+		
+		JFileChooser fileDialog = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES","txt","text");
+		fileDialog.setFileFilter(filter);
+		int returnValue = fileDialog.showOpenDialog(frame);
+		
+		if (returnValue == JFileChooser.APPROVE_OPTION)
+		{
+			//Ielade failu
+			file = fileDialog.getSelectedFile();
+			
+			setFileTextField(file.getAbsolutePath());
+		}
+		else
+		{
+			//Nekas netika izvelets!
+			file = null;
+		}
+		
+		return file;
+	}
+	
+	@Override
+	public void addChangeListener(ChangeListener changeListener)
+	{
+		slider.addChangeListener(changeListener);
+	}
+	
+	@Override
+	public int getSliderValue()
+	{
+		int rez = 0;
+		rez = slider.getValue();
+		return rez;
+	}
+	
+	
+	@Override
+	public void setTextArea(String text)
 	{
 		//Pievieno tekstu
 		textArea.setEnabled(true);
 		textArea.setText(text);
-		
-		//Apstrada tekstu
-		TextProcessing textProcessing = new TextProcessing(text);
-		textProcessing.splitIntoSentences();
-		
-		sentenceList = textProcessing.getSentenceList();
-		
-		SimMatrix simMatrix = new SimMatrix(sentenceList);
-		simMatrix.createMatrix();
-		
-		double [][] simMatrixRes = simMatrix.getSimMatrix();
-		
-		
-		//Veic textrank algoritmu
-		TextRank textRank = new TextRank(simMatrixRes);
-		textRank.startTextRank();
-		
-		double [] sentRank = textRank.getScoreVector();
-		
-		
-		for (int i = 0; i< sentRank.length; i++)
-		{
-			sentenceList.get(i).setRank(sentRank[i]);
-		}
-		
-		
-		
-		
-		showText(sentenceList);
-		showSimMatrix(simMatrixRes);
-		showSummary(sentenceList);
 	}
 	
-	private void showText(ArrayList <Sentence> sentenceList)
+	
+	public void showTextTable(ArrayList <Sentence> sentenceList)
 	{
 		int i = 0;
 		
@@ -283,9 +305,9 @@ public class GUI {
 		}
 	}
 	
-	private void showSimMatrix(double [][] simMatrixRes)
+	public void showSimMatrixTable(double [][] simMatrix)
 	{
-		int dimensionCount = simMatrixRes.length + 1; 
+		int dimensionCount = simMatrix.length + 1; 
 		simTableModel.setColumnCount(dimensionCount);
 		simTableModel.setRowCount(dimensionCount);
 		
@@ -303,7 +325,7 @@ public class GUI {
 				}
 				else
 				{
-					simTableModel.setValueAt(""+simMatrixRes[j-1][i-1], j, i);
+					simTableModel.setValueAt(""+simMatrix[j-1][i-1], j, i);
 				}
 				simTableModel.setValueAt("", 0, 0);
 			}
@@ -312,20 +334,10 @@ public class GUI {
 		
 	}
 	
-	private void showSummary(ArrayList <Sentence> sentenceList)
+	@Override
+	public void showSummaryText(Sentence [] sentArray)
 	{
 		//Parada kopsavilkumu
-		summarizer = new Summarizer(sentenceList);
-		
-		int n_max = sentenceList.size();
-		
-		int proc = slider.getValue();
-		
-		int n = (int)Math.round(n_max *(proc/100.0));
-		
-		//System.out.println("Panem: "+n);
-		
-		Sentence [] sentArray = summarizer.getNSentences(n);
 		
 		String summary = "";
 		
@@ -339,8 +351,80 @@ public class GUI {
 		summTextArea.setText(summary);
 	}
 	
-	public void sliderChanged()
+	@Override
+	public void addTableMouseListener(MouseAdapter mouseAdapter)
 	{
-		showSummary(sentenceList);
+		simTable.addMouseListener(mouseAdapter);
+	}
+	
+	@Override
+	public int getRowAtPoint(Point point)
+	{
+		
+		return simTable.rowAtPoint(point);
+	}
+	
+	@Override
+	public int getColumnAtPoint(Point point)
+	{
+		return simTable.columnAtPoint(point);
+	}
+	
+	@Override
+	public void showTwoSentenceComparison(SentenceComparison sentenceComparison)
+	{
+		//System.out.println(sentenceComparison.getFirstSentence());
+		//System.out.println(sentenceComparison.getSecondSentence());
+		
+		DefaultTableModel tableModel = new DefaultTableModel(sentenceComparison.getWordArr().length, 3)
+		{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column)
+			{
+				return false;
+			}
+		};
+		
+		JTable table = new JTable(tableModel);
+		JScrollPane tableScrollPane = new JScrollPane(table);
+		
+		String [] columns = {"Vârdi","Pirmâ teikuma vektors", "Otrâ teikuma vektors"};
+		tableModel.setColumnIdentifiers(columns);
+		
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setPreferredScrollableViewportSize(new Dimension(100,200));
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		for (int i = 0; i< sentenceComparison.getWordArr().length;i++)
+		{
+			tableModel.setValueAt(sentenceComparison.getWordArr()[i], i, 0);
+			tableModel.setValueAt(sentenceComparison.getFirstSentRank()[i]+"", i, 1);
+			tableModel.setValueAt(sentenceComparison.getSecondSentRank()[i]+"", i, 2);
+		}
+		
+		JLabel label1 = new JLabel("<html> "+sentenceComparison.getFirstSentenceID()+"] "+sentenceComparison.getFirstSentence()+"</html>");
+		JLabel label2 = new JLabel("<html> "+sentenceComparison.getSecondSentenceID()+"] "+sentenceComparison.getSecondSentence()+"</html>");
+		
+		label1.setPreferredSize(new Dimension(580, 80));
+		label2.setPreferredSize(new Dimension(580, 80));
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(150);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		
+		JComponent [] inputs = new JComponent []
+		{
+			label1,
+			label2,
+			tableScrollPane,
+			new JLabel("Cos(O) = (a.b)/(SQRT(a^2)SQRT(b^2)) = "+sentenceComparison.getRank())
+		};
+		
+		JOptionPane.showMessageDialog(null, inputs, "Teikumu salidzinâjums", JOptionPane.PLAIN_MESSAGE);
 	}
 }
