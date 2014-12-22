@@ -86,9 +86,15 @@ public class SummController {
 	
 	private void loadFile(File file)
 	{
-		String text = model.getFile(file);
-		
-		processText(text);
+		try
+		{
+			String text = model.getFile(file);
+			processText(text);
+		}
+		catch (Exception e)
+		{
+			view.showError(e.getMessage());
+		}
 	}
 	
 	private void processText(String text)

@@ -7,6 +7,7 @@ public class SentenceComparison {
 	private String [] wordArr = null;
 	private int [] firstSentVector = null;
 	private int [] secondSentVector = null;
+	private String [] wordsArray = null;
 	
 	private Sentence s1 = null;
 	private Sentence s2 = null;
@@ -25,6 +26,56 @@ public class SentenceComparison {
 	public String [] getWordArr()
 	{
 		return wordArr;
+	}
+	
+	public String [] getWordsArr()
+	{
+		//Veido words masivu
+		wordsArray = new String [wordArr.length];
+		
+		for (int i = 0; i< wordsArray.length; i++)
+		{
+			wordsArray[i] = "";
+		}
+		
+		for (int i = 0; i< wordsArray.length; i++)
+		{
+			String word = wordArr[i];
+			for (String w: s1.getWordList())
+			{
+				if (isSameWords(w, word))
+				{
+					wordsArray[i]+=w+" ";
+				}
+			}
+			for (String w: s2.getWordList())
+			{
+				if (isSameWords(w, word))
+				{
+					wordsArray[i]+=w+" ";
+				}
+				
+			}
+		}
+		
+		
+		
+		return wordsArray;
+	}
+	
+	private boolean isInString(String word, String  words)
+	{
+		String [] wordsArray = words.split(" ");
+		
+		for (int i=0; i<wordsArray.length; i++)
+		{
+			if (wordsArray[i].equals(word))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public int [] getFirstSentRank()
@@ -117,11 +168,10 @@ public class SentenceComparison {
 		
 		
 		wordArr = new String[wordList.size()];
-		int k = 0;
-		for (String w:wordList)
+		
+		for (int i=0;i<wordArr.length;i++)
 		{
-			wordArr[k] = wordList.get(k);
-			k++;
+			wordArr[i] = wordList.get(i);
 		}
 		
 		firstSentVector = vector_1;

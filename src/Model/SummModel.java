@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class SummModel {
 	
-	public String getFile(File file)
+	public String getFile(File file) throws Exception
 	{
 		String rez = null;
 		

@@ -371,6 +371,12 @@ public class SummView extends View {
 	}
 	
 	@Override
+	public void showError(String errorTxt)
+	{
+		JOptionPane.showMessageDialog(frame, errorTxt);
+	}
+	
+	@Override
 	public void showTwoSentenceComparison(SentenceComparison sentenceComparison)
 	{
 		//System.out.println(sentenceComparison.getFirstSentence());
@@ -402,7 +408,8 @@ public class SummView extends View {
 		
 		for (int i = 0; i< sentenceComparison.getWordArr().length;i++)
 		{
-			tableModel.setValueAt(sentenceComparison.getWordArr()[i], i, 0);
+			//tableModel.setValueAt(sentenceComparison.getWordArr()[i], i, 0);
+			tableModel.setValueAt(sentenceComparison.getWordsArr()[i], i, 0);
 			tableModel.setValueAt(sentenceComparison.getFirstSentRank()[i]+"", i, 1);
 			tableModel.setValueAt(sentenceComparison.getSecondSentRank()[i]+"", i, 2);
 		}
@@ -413,9 +420,9 @@ public class SummView extends View {
 		label1.setPreferredSize(new Dimension(580, 80));
 		label2.setPreferredSize(new Dimension(580, 80));
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(150);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);
-		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.getColumnModel().getColumn(0).setPreferredWidth(300);
+		table.getColumnModel().getColumn(1).setPreferredWidth(130);
+		table.getColumnModel().getColumn(2).setPreferredWidth(130);
 		
 		JComponent [] inputs = new JComponent []
 		{

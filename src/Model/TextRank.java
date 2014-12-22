@@ -118,6 +118,7 @@ public class TextRank {
 		return rez;
 	}
 	
+	/*
 	private void showScoreVector()
 	{
 		System.out.println("Novertejuma vektoris ir: ");
@@ -126,6 +127,7 @@ public class TextRank {
 			System.out.println((i+1)+") "+scoreVector[i]);
 		}
 	}
+	*/
 	
 	private boolean isIterationGoing()
 	{

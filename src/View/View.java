@@ -27,4 +27,5 @@ public abstract class View {
 	public abstract int getRowAtPoint(Point point);
 	public abstract int getColumnAtPoint(Point point);
 	public abstract void showTwoSentenceComparison(SentenceComparison sentenceComparison);
+	public abstract void showError(String errorTxt);
 }

@@ -30,7 +30,7 @@ public class TextProcessing {
 			{
 				
 				sentence+=character;
-				if (character=='.' || character=='!' || character == '?')
+				if (isSentenceEnd(text, i))
 				{
 					sentence = sentence.trim();
 					sentenceList.add(new Sentence(id, sentence));
@@ -45,14 +45,41 @@ public class TextProcessing {
 			
 			
 		}
+	}
+	
+	private boolean isSentenceEnd(String text, int i)
+	{
+		char character = text.charAt(i);
 		
-		//Izvada teikumu sarakstu
-		/*
-		for (Sentence s: sentenceList)
+		
+		if (character=='.' || character=='!' || character == '?')
 		{
-			System.out.println(s.getOriginalSentence());
+			//Vai beigas
+			if (i == text.length()-1)
+			{
+				return true;
+			}
+			else if (Character.isUpperCase(text.charAt(i-1)) && text.charAt(i-2) ==' ')
+			{
+				return false;
+			}
+			//Vai rindas beigas
+			else if (text.charAt(i+1)=='\n' || text.charAt(i+1)=='\r')
+			{
+				return true;
+			}
+			else if (!Character.isDigit(text.charAt(i-1)) && Character.isUpperCase(text.charAt(i+2)) && text.charAt(i+1) ==' ')
+			{
+				return true;
+			}
+			else if (!Character.isDigit(text.charAt(i-1)) && Character.isUpperCase(text.charAt(i+1)) && text.charAt(i+1) !=' ')
+			{
+				return true;
+			}
+			
 		}
-		*/
+		
+		return false;
 	}
 	
 	public ArrayList <Sentence> getSentenceList()
