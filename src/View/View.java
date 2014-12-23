@@ -28,4 +28,10 @@ public abstract class View {
 	public abstract int getColumnAtPoint(Point point);
 	public abstract void showTwoSentenceComparison(SentenceComparison sentenceComparison);
 	public abstract void showError(String errorTxt);
+	public abstract void disableTabs();
+	public abstract void enableTabs();
+	public abstract void addSentSummEvent(ActionListener actionListener);
+	public abstract void enableSummButtons();
+	public abstract void disableSummButtons();
+	public abstract void setProgress(String text);
 }

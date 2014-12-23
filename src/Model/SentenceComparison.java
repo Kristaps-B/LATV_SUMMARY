@@ -14,11 +14,15 @@ public class SentenceComparison {
 	
 	private double rank = 0;
 	
+	WordComparison wordComparison;
+	
 	public SentenceComparison(Sentence s1, Sentence s2)
 	{
 		
 		this.s1 = s1;
 		this.s2 = s2;
+		
+		wordComparison = new WordComparison();
 		
 		rank = findSentenceSimilarity(this.s1, this.s2);
 	}
@@ -43,14 +47,14 @@ public class SentenceComparison {
 			String word = wordArr[i];
 			for (String w: s1.getWordList())
 			{
-				if (isSameWords(w, word))
+				if (wordComparison.isSameWords(w, word))
 				{
 					wordsArray[i]+=w+" ";
 				}
 			}
 			for (String w: s2.getWordList())
 			{
-				if (isSameWords(w, word))
+				if (wordComparison.isSameWords(w, word))
 				{
 					wordsArray[i]+=w+" ";
 				}
@@ -126,7 +130,7 @@ public class SentenceComparison {
 			String word = wordList.get(i);
 			for (String w: s1.getWordList() )
 			{
-				if (isSameWords(w, word))
+				if (wordComparison.isSameWords(w, word))
 				{
 					vector_1[i]+=1;
 				}
@@ -142,7 +146,7 @@ public class SentenceComparison {
 			String word = wordList.get(i);
 			for (String w: s2.getWordList() )
 			{
-				if (isSameWords(w, word))
+				if (wordComparison.isSameWords(w, word))
 				{
 					vector_2[i]+=1;
 				}
@@ -186,58 +190,10 @@ public class SentenceComparison {
 	{
 		for (String w:wordList)
 		{
-			if (isSameWords(w, word))
+			if (wordComparison.isSameWords(w, word))
 			{
 				return true;
 			}
-		}
-		
-		return false;
-	}
-	
-	private String getCommonLongestSubstring(String word1, String word2)
-	{
-		String commonSubstring = null;
-		
-		word1 = word1.toLowerCase();
-		word2 = word2.toLowerCase();
-		
-		commonSubstring = longestCommonSubstring(word1, word2);
-		
-		return commonSubstring;
-	}
-	
-	private String longestCommonSubstring(String S1, String S2)
-	{
-	    int Start = 0;
-	    int Max = 0;
-	    for (int i = 0; i < S1.length(); i++)
-	    {
-	        for (int j = 0; j < S2.length(); j++)
-	        {
-	            int x = 0;
-	            while (S1.charAt(i + x) == S2.charAt(j + x))
-	            {
-	                x++;
-	                if (((i + x) >= S1.length()) || ((j + x) >= S2.length())) break;
-	            }
-	            if (x > Max)
-	            {
-	                Max = x;
-	                Start = i;
-	            }
-	         }
-	    }
-	    return S1.substring(Start, (Start + Max));
-	}
-	
-	private boolean isSameWords(String word1, String word2)
-	{
-		String commonSubstring = getCommonLongestSubstring(word1, word2);
-		
-		if (commonSubstring.length()>=word1.length()*0.75 || commonSubstring.length()>=word2.length()*0.75)
-		{
-			return true;
 		}
 		
 		return false;

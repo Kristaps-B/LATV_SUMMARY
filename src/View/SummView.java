@@ -34,6 +34,8 @@ import Model.SentenceComparison;
 public class SummView extends View {
 	
 	private JFrame frame;
+	private JPanel panelSentSumm;
+	private JPanel panelKeyWords;
 	private JPanel centerPanel_1;
 	private JPanel centerPanel_2;
 	private JPanel centerPanel_3;
@@ -47,8 +49,12 @@ public class SummView extends View {
 	private JTable simTable;
 	private DefaultTableModel sentTableModel;
 	private DefaultTableModel simTableModel;
-	
+	private JTabbedPane jtb;
+	private JTabbedPane jtb_1;
+	private JTabbedPane jtb_2;
 	private JSlider slider;
+	private JButton sentSummButton;
+	private JLabel progressLabel;
 	
 	
 	//Izveido grafisko interfeisu
@@ -57,7 +63,9 @@ public class SummView extends View {
 	{
 		createWindow();
 		createPannels();
+		createProgressLabel();
 		createTextArea();
+		createSentSummButton();
 		createSummTextArea();
 		createFileLoading();
 		createSentenceTable();
@@ -70,10 +78,16 @@ public class SummView extends View {
 	{
 		//Veido logu
 		frame = new JFrame("LATV_SUMMARY (Kristaps Babrovskis ITI) ");
-		frame.setSize(840,480);
+		frame.setSize(840,540);
 		frame.setLayout(new BorderLayout());
 		
 		
+	}
+	
+	private void createProgressLabel()
+	{
+		progressLabel = new JLabel("Progress: ");
+		centerPanel_1.add(progressLabel);
 	}
 	
 	private void showAll()
@@ -86,7 +100,12 @@ public class SummView extends View {
 	private void createPannels()
 	{
 		//Izveido panelus
-		JTabbedPane jtb = new JTabbedPane();
+		jtb = new JTabbedPane();
+		jtb_1 = new JTabbedPane();
+		jtb_2 = new JTabbedPane();
+		
+		panelSentSumm = new JPanel();
+		panelKeyWords = new JPanel();
 		
 		centerPanel_1 = new JPanel();
 		centerPanel_2 = new JPanel();
@@ -94,14 +113,33 @@ public class SummView extends View {
 		centerPanel_4 = new JPanel();
 		northPanel = new JPanel();
 		
-		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
-		jtb.addTab("Teksta teikumi", centerPanel_2);
-		jtb.addTab("Teikumu lîdzibas matrica", centerPanel_3);
-		jtb.addTab("Kopsavilkums", centerPanel_4);
+		jtb.addTab("Teikumu kopsavilkums", panelSentSumm);
+		jtb.addTab("Atslegvârdi", panelKeyWords);
 		
-		frame.add(jtb,BorderLayout.CENTER);
-		frame.add(northPanel,BorderLayout.NORTH);
+		
+		jtb_1.setPreferredSize(new Dimension(800,410));
+		
+		jtb_1.addTab("Teksta teikumi", centerPanel_2);
+		jtb_1.addTab("Teikumu lîdzibas matrica", centerPanel_3);
+		jtb_1.addTab("Kopsavilkums", centerPanel_4);
+		
+		
+		
+		
+		jtb.setEnabledAt(1, false);
+		jtb.setEnabledAt(2, false);
+		
+		panelSentSumm.add(jtb_1, BorderLayout.CENTER);
+		frame.add(jtb, BorderLayout.CENTER);
+		frame.add(northPanel, BorderLayout.NORTH);
+	}
+	
+	private void createSentSummButton()
+	{
+		sentSummButton = new JButton("Teikumu kopsavilkums");
+		sentSummButton.setEnabled(false);
+		centerPanel_1.add(sentSummButton);
 	}
 	
 	private void createTextArea()
@@ -112,6 +150,7 @@ public class SummView extends View {
 		textArea.setEnabled(false);
 		textArea.setLineWrap(true);
 		centerPanel_1.add(scrollPane);
+		textArea.setEditable(false);
 	}
 	
 	private void createSummTextArea()
@@ -226,6 +265,57 @@ public class SummView extends View {
 	{
 		loadButton.addActionListener(actionListener);
 		
+	}
+	
+	@Override
+	public void enableSummButtons()
+	{
+		sentSummButton.setEnabled(true);
+	}
+	
+	@Override
+	public void setProgress(String text)
+	{
+		progressLabel.setText(text);
+	}
+	
+	@Override
+	public void disableSummButtons()
+	{
+		sentSummButton.setEnabled(false);
+	}
+	
+	@Override
+	public void disableTabs()
+	{
+		jtb.setSelectedIndex(0);
+		jtb.setEnabledAt(1, false);
+		/*
+		
+		
+		
+		jtb.setEnabledAt(2, false);
+		jtb.setEnabledAt(3, false);
+		*/
+		
+	}
+	
+	@Override
+	public void addSentSummEvent(ActionListener actionListener)
+	{
+		sentSummButton.addActionListener(actionListener);
+	}
+	
+	@Override 
+	public void enableTabs()
+	{
+		jtb.setEnabledAt(1, true);
+		
+		/*
+		
+		jtb.setEnabledAt(2, true);
+		jtb.setEnabledAt(3, true);
+		*/
 	}
 	
 	@Override
