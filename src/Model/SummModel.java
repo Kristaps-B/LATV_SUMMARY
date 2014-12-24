@@ -3,6 +3,8 @@ package Model;
 import java.io.File;
 import java.util.ArrayList;
 
+import View.View;
+
 public class SummModel {
 	
 	public String getFile(File file) throws Exception
@@ -31,12 +33,12 @@ public class SummModel {
 		return rez;
 	}
 	
-	public double [][] getSimilarityMatrix(ArrayList <Sentence> sentenceList)
+	public double [][] getSimilarityMatrix(ArrayList <Sentence> sentenceList, View view)
 	{
 		double [][] rez = null;
 		
 		SimMatrix simMatrix = new SimMatrix(sentenceList);
-		simMatrix.createMatrix();
+		simMatrix.createMatrix(view);
 		
 		rez = simMatrix.getSimMatrix();
 		
@@ -94,4 +96,6 @@ public class SummModel {
 		
 		return rez;
 	}
+	
+	
 }

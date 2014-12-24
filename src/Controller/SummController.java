@@ -39,12 +39,20 @@ public class SummController {
 				@Override
 				public void actionPerformed(ActionEvent e)
 				{
-					File file = view.showFileDialog();
+					final File file = view.showFileDialog();
 					
 					if (file != null)
 					{
 						view.disableTabs();
-						loadFile(file);
+						
+						new Thread()
+						{
+							@Override
+							public void run()
+							{
+								loadFile(file);
+							}
+						}.start();
 						
 					}
 					else
@@ -61,8 +69,19 @@ public class SummController {
 				public void actionPerformed(ActionEvent e)
 				{
 					view.disableSummButtons();
-					processText(text);
-					view.enableTabs();
+					
+					new Thread()
+					{
+						@Override
+						public void run()
+						{
+							processText(text);
+							view.enableTabs();
+						}
+						
+					}.start();
+					
+					
 				}
 			}		
 		);
@@ -122,17 +141,21 @@ public class SummController {
 	{
 		
 		
-		view.setProgress("Progress: Sadala tekstu teikumos...");
+		view.setProgress("Progress: Sadala tekstu teikumos, uzgaidiet...");
+	
 		sentenceList = model.getSentenceList(text);
 		
-		view.setProgress("Progress: Veido teikumu tuvuma matricu...");
-		double [][] simMatrix = model.getSimilarityMatrix(sentenceList);
+		view.setProgress("Progress: Veido teikumu tuvuma matricu, uzgaidiet...");
+		
+		double [][] simMatrix = model.getSimilarityMatrix(sentenceList, view);
 
-		view.setProgress("Progress: Izpilda TextRank algoritmu...");
+		view.setProgress("Progress: Izpilda TextRank algoritmu, uzgaidiet...");
+		
 		sentenceList = model.getRankedSentences(sentenceList, simMatrix);
 		
 		
-		view.setProgress("Progress: Teikumi tika veiksmîgi novertçti...");
+		view.setProgress("Teikumi tika veiksmîgi novertçti.");
+		
 		view.showTextTable(sentenceList);
 		view.showSimMatrixTable(simMatrix);
 		showSummaryText();

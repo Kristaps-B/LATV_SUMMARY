@@ -1,5 +1,6 @@
 package Model;
 import java.util.ArrayList;
+import View.View;
 
 
 
@@ -14,13 +15,15 @@ public class SimMatrix {
 		this.sentenceList = sentenceList;
 	}
 	
-	public void createMatrix()
+	public void createMatrix(View view)
 	{
 		int dimension = sentenceList.size();
 		simMatrix = new double[dimension][dimension];
 		
 		for (int i=0; i<simMatrix.length;i++)
 		{
+			
+			view.setProgress("Progress: Veido teikumu tuvuma matricu ("+i+"/"+dimension+"), uzgaidiet...");
 			for (int j=0;j<simMatrix[i].length;j++)
 			{
 				

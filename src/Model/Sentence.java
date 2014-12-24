@@ -197,7 +197,11 @@ public class Sentence {
 	"nav",
 	"mûs",
 	"viòus",
-	"viòiem"
+	"viòiem",
+	"tiem",
+	"tie",
+	"tâs",
+	"ko"
 	
 	};
 	
