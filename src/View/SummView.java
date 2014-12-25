@@ -160,6 +160,7 @@ public class SummView extends View {
 		JScrollPane summScrollPane = new JScrollPane(summTextArea);
 		summTextArea.setEnabled(false);
 		summTextArea.setLineWrap(true);
+		summTextArea.setEditable(false);
 		centerPanel_4.add(summScrollPane);
 	}
 	
