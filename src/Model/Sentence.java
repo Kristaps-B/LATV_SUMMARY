@@ -11,199 +11,7 @@ public class Sentence {
 	
 	private double rank;
 	
-	//Stop vardu saraksts
-	private String [] stopWordArray = {
-	"aiz",
-	"ap",
-	"apakð",
-	"ârpus",
-	"augðpus",
-	"bez",
-	"caur",
-	"dçï",
-	"gar",
-	"iekð",
-	"iz",
-	"kopð",
-	"labad",
-	"lejpus",
-	"lîdz",
-	"no",
-	"otrpus",
-	"pa",
-	"par",
-	"pâr",
-	"pçc",
-	"pie",
-	"pirms",
-	"pret",
-	"priekð",
-	"starp",
-	"ðaipus",
-	"uz",
-	"viòpus",
-	"virs",
-	"virspus",
-	"zem",
-	"apakðpus",
-	//Conjuctions
-	"un",
-	"bet",
-	"jo",
-	"ja",
-	"ka",
-	"lai",
-	"tomçr",
-	"tikko",
-	"turpretî",
-	"arî",
-	"kaut",
-	"gan",
-	"tâdçï",
-	"tâ",
-	"ne",
-	"tikvien",
-	"vien",
-	"kâ",
-	"ir",
-	"te",
-	"vai",
-	"kamçr",
-	//Particles
-	"ar",
-	"diezin",
-	"droði",
-	"diemþçl",
-	"nebût",
-	"ik",
-	"it",
-	"taèu",
-	"nu",
-	"pat",
-	"tiklab",
-	"iekðpus",
-	"nedz",
-	"tik",
-	"nevis",
-	"turpretim",
-	"jeb",
-	"iekam",
-	"iekâm",
-	"iekâms",
-	"kolîdz",
-	"lîdzko",
-	"tiklîdz",
-	"jebðu",
-	"tâlab",
-	"tâpçc",
-	"nekâ",
-	"itin",
-	"jâ",
-	"jau",
-	"jel",
-	"nç",
-	"nezin",
-	"tad",
-	"tikai",
-	"vis",
-	"tak",
-	"iekams",
-	"vien",
-	//Modal verbs
-	"bût",
-	"biju",
-	"biji",
-	"bija",
-	"bijâm",
-	"bijât",
-	"esmu",
-	"esi",
-	"esam",
-	"esat",
-	"bûðu",
-	"bûsi",
-	"bûs",
-	"bûsim",
-	"bûsiet",
-	"tikt",
-	"tiku",
-	"tiki",
-	"tika",
-	"tikâm",
-	"tikât",
-	"tieku",
-	"tiec",
-	"tiek",
-	"tiekam",
-	"tiekat",
-	"tikðu",
-	"tiks",
-	"tiksim",
-	"tiksiet",
-	"tapt",
-	"tapi",
-	"tapât",
-	"topat",
-	"tapðu",
-	"tapsi",
-	"taps",
-	"tapsim",
-	"tapsiet",
-	"kïût",
-	"kïuvu",
-	"kïuvi",
-	"kïuva",
-	"kïuvâm",
-	"kïuvât",
-	"kïûstu",
-	"kïûsti",
-	"kïûst",
-	"kïûstam",
-	"kïûstat",
-	"kïûðu",
-	"kïûsi",
-	"kïûs",
-	"kïûsim",
-	"kïûsiet",
-	//verbs
-	"varçt",
-	"varçju",
-	"varçjâm",
-	"varçðu",
-	"varçsim",
-	"var",
-	"varçji",
-	"varçjât",
-	"varçsi",
-	"varçsiet",
-	"varat",
-	"varçja",
-	"varçs",
-	//more
-	"bûtu",
-	"kuras",
-	"diez",
-	"viss",
-	"vismaz",
-	"kas",
-	"viòð",
-	"daudz",
-	"tâm",
-	"ir",
-	"tâdas",
-	"viòi",
-	"tas",
-	"to",
-	"nav",
-	"mûs",
-	"viòus",
-	"viòiem",
-	"tiem",
-	"tie",
-	"tâs",
-	"ko"
 	
-	};
 	
 	public Sentence(int ID, String originalSentence)
 	{
@@ -230,7 +38,7 @@ public class Sentence {
 		for (int i=0;i<wordArray.length;i++)
 		{
 			//System.out.print(wordArray[i]+" ");
-			if (!isStopWord(wordArray[i]) && wordArray[i].length()>0)
+			if (!StopWords.isStopWord(wordArray[i]) && wordArray[i].length()>0)
 			{
 				wordList.add(wordArray[i]);
 			}
@@ -248,18 +56,7 @@ public class Sentence {
 		*/
 	}
 	
-	private boolean isStopWord(String word)
-	{
-		for (int i=0;i<stopWordArray.length;i++)
-		{
-			if (stopWordArray[i].equals(word))
-			{
-				return true;
-			}
-		}
-			
-		return false;
-	}
+	
 	
 	public String getOriginalSentence()
 	{

@@ -54,6 +54,7 @@ public class SummView extends View {
 	private JTabbedPane jtb_2;
 	private JSlider slider;
 	private JButton sentSummButton;
+	private JButton keyWordButton;
 	private JLabel progressLabel;
 	
 	
@@ -66,6 +67,7 @@ public class SummView extends View {
 		createProgressLabel();
 		createTextArea();
 		createSentSummButton();
+		createKeyWordButton();
 		createSummTextArea();
 		createFileLoading();
 		createSentenceTable();
@@ -88,6 +90,25 @@ public class SummView extends View {
 	{
 		progressLabel = new JLabel("Progress: ");
 		centerPanel_1.add(progressLabel);
+	}
+	
+	private void createKeyWordButton()
+	{
+		keyWordButton =  new JButton("Atslegas vârdi");
+		centerPanel_1.add(keyWordButton);
+		keyWordButton.setEnabled(false);
+	}
+	
+	@Override
+	public void enableKeyWordButton()
+	{
+		keyWordButton.setEnabled(true);
+	}
+	
+	@Override
+	public void disableKeyWordButton()
+	{
+		keyWordButton.setEnabled(false);
 	}
 	
 	private void showAll()
@@ -291,6 +312,7 @@ public class SummView extends View {
 	{
 		jtb.setSelectedIndex(0);
 		jtb.setEnabledAt(1, false);
+		jtb.setEnabledAt(2,false);
 		/*
 		
 		
@@ -308,7 +330,7 @@ public class SummView extends View {
 	}
 	
 	@Override 
-	public void enableTabs()
+	public void enableTab_1()
 	{
 		jtb.setEnabledAt(1, true);
 		
@@ -323,6 +345,18 @@ public class SummView extends View {
 	public void setFileTextField(String text)
 	{
 		fileText.setText(text);
+	}
+	
+	@Override
+	public void addKeyWordButtonEven(ActionListener actionListener)
+	{
+		keyWordButton.addActionListener(actionListener);
+	}
+	
+	@Override
+	public void enableTab_2()
+	{
+		jtb.setEnabledAt(2, true);
 	}
 	
 	@Override

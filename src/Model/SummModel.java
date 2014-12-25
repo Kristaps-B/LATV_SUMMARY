@@ -37,7 +37,7 @@ public class SummModel {
 	{
 		double [][] rez = null;
 		
-		SimMatrix simMatrix = new SimMatrix(sentenceList);
+		SentSimMatrix simMatrix = new SentSimMatrix(sentenceList);
 		simMatrix.createMatrix(view);
 		
 		rez = simMatrix.getSimMatrix();
@@ -93,6 +93,31 @@ public class SummModel {
 		
 		
 		rez = new SentenceComparison(s1, s2);
+		
+		return rez;
+	}
+	
+	
+	public ArrayList <Word> getWordList(ArrayList <Sentence> sentenceList)
+	{
+		ArrayList <Word> result = null;
+		
+		WordListGenerator wordListGenerator = new WordListGenerator(sentenceList);
+		
+		wordListGenerator.generateWordList();
+		
+		result = wordListGenerator.getWordList();
+		
+		return result;
+	}
+	
+	public double [][] getWordSimmMatrix(ArrayList <Word> wordList)
+	{
+		double [][] rez = null;
+		
+		WordSimMatrix wordSimMatrix = new WordSimMatrix(wordList);
+		wordSimMatrix.generateWordSimMatrix();
+		
 		
 		return rez;
 	}

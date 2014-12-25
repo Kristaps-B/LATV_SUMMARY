@@ -29,9 +29,13 @@ public abstract class View {
 	public abstract void showTwoSentenceComparison(SentenceComparison sentenceComparison);
 	public abstract void showError(String errorTxt);
 	public abstract void disableTabs();
-	public abstract void enableTabs();
+	public abstract void enableTab_1();
+	public abstract void enableTab_2();
 	public abstract void addSentSummEvent(ActionListener actionListener);
 	public abstract void enableSummButtons();
 	public abstract void disableSummButtons();
 	public abstract void setProgress(String text);
+	public abstract void enableKeyWordButton();
+	public abstract void disableKeyWordButton();
+	public abstract void addKeyWordButtonEven(ActionListener actionListener);
 }

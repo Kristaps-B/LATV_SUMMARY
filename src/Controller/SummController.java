@@ -12,6 +12,7 @@ import View.View;
 import Model.Sentence;
 import Model.SentenceComparison;
 import Model.SummModel;
+import Model.Word;
 
 
 public class SummController {
@@ -75,8 +76,8 @@ public class SummController {
 						@Override
 						public void run()
 						{
-							processText(text);
-							view.enableTabs();
+							generateSummary(text);
+							view.enableTab_1();
 						}
 						
 					}.start();
@@ -84,6 +85,25 @@ public class SummController {
 					
 				}
 			}		
+		);
+		
+		view.addKeyWordButtonEven(new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					new Thread()
+					{
+						@Override
+						public void run()
+						{
+							view.disableKeyWordButton();
+							generateKeyWords(text);
+							view.enableTab_2();
+						}
+					}.start();
+				}
+			}	
 		);
 		
 		view.addChangeListener(new ChangeListener()
@@ -119,6 +139,30 @@ public class SummController {
 		
 	}
 	
+	private void generateKeyWords(String text)
+	{
+		//Genere atslegas vardus
+		
+		
+		view.setProgress("Progress: Sadala tekstu teikumos, uzgaidiet...");
+		
+		if (sentenceList == null)
+		{
+			sentenceList = model.getSentenceList(text);
+		}
+		
+		view.setProgress("Progress: Iegust potenciâlo vârdu sarakstu, uzgaidiet...");
+		
+		ArrayList <Word> wordList = model.getWordList(sentenceList);
+		
+		double [][] simMatrix = model.getWordSimmMatrix(wordList);
+		
+		
+		//Beigas
+		view.setProgress("Atslegvârdi tika veiksmîgi novertçti");
+		
+	}
+	
 	private void loadFile(File file)
 	{
 		view.setProgress("Progress: Ielade failu...");
@@ -128,6 +172,8 @@ public class SummController {
 			this.text = model.getFile(file);
 			view.setTextArea(text);
 			view.enableSummButtons();
+			view.enableKeyWordButton();
+			view.enableKeyWordButton();
 			view.setProgress("Progress: Teksts tika ieladçts...");
 		}
 		catch (Exception e)
@@ -137,7 +183,7 @@ public class SummController {
 		
 	}
 	
-	private void processText(String text)
+	private void generateSummary(String text)
 	{
 		
 		

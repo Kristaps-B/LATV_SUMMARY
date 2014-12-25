@@ -4,13 +4,13 @@ import View.View;
 
 
 
-public class SimMatrix {
+public class SentSimMatrix {
 	
 	private ArrayList <Sentence> sentenceList = null;
 	
 	private double [][] simMatrix = null;
 	
-	public SimMatrix(ArrayList <Sentence> sentenceList)
+	public SentSimMatrix(ArrayList <Sentence> sentenceList)
 	{
 		this.sentenceList = sentenceList;
 	}
