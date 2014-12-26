@@ -6,13 +6,14 @@ public class WordSimMatrix {
 	
 	private ArrayList <Word> wordList;
 	
-	private double [][] simMatrix;
+	
+	private int [][] simMatrix;
 	
 	public WordSimMatrix(ArrayList <Word> wordList)
 	{
 		this.wordList = wordList;
 		
-		simMatrix = new double[wordList.size()][wordList.size()];
+		simMatrix = new int[wordList.size()][wordList.size()];
 	}
 	
 	public void generateWordSimMatrix()
@@ -24,7 +25,7 @@ public class WordSimMatrix {
 			ArrayList <WordPosition> wp1 = w1.getWordPosList();
 			double wordCount = wp1.size();
 			
-			System.out.println(i+"---> " + wp1.size());
+			//System.out.println(i+"---> " + wp1.size());
 			for (int j=0; j<simMatrix.length; j++)
 			{
 				Word w2 = wordList.get(j);
@@ -37,26 +38,42 @@ public class WordSimMatrix {
 				{
 					for (WordPosition w_j: wp2)
 					{
-						if (w_i.getSentN()==w_j.getSentN() && (w_j.getWordPos()-w_i.getSentN())==1)
+						if (w_i.getSentN()==w_j.getSentN() && isWordsNear(w_i.getWordPos(), w_j.getWordPos(),wp1.size()))
 						{
 							neighbourCount++;
 						}
 					}
 				}
 				
-				System.out.print(neighbourCount+" | ");
-				simMatrix[i][j] = (neighbourCount/wordCount);
+				//System.out.print(neighbourCount+" | ");
+				simMatrix[i][j] = (neighbourCount);
 			}
-			System.out.println();
+			//System.out.println();
 			
 		}
+		
 		writeSimMatrix();
 		
+	}
+	
+	private boolean isWordsNear(int w1_p, int w2_p, int sentLength)
+	{
+		boolean rezult = false;
+		
+		
+		if (Math.abs(w2_p-w1_p) == 1)
+		{
+			return true;
+		}
+	
+		
+		return rezult;
 	}
 	
 	
 	private void writeSimMatrix()
 	{
+		System.out.println("--------------------------------------");
 		for (int i = 0; i<simMatrix.length;i++)
 		{
 			for (int j=0; j<simMatrix.length; j++)
@@ -65,5 +82,10 @@ public class WordSimMatrix {
 			}
 			System.out.println();
 		}
+	}
+	
+	public int [][] getSimMatrix()
+	{
+		return simMatrix;
 	}
 }

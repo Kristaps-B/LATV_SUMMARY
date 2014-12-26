@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Word {
 	private String word;
 	
+	private int ID = 0;
+	
+	private double rank = 0;
+	
 	private ArrayList <WordPosition> wordPosition;
 	
 	public Word(String word)
@@ -14,10 +18,30 @@ public class Word {
 		wordPosition = new ArrayList <>();
 	}
 	
+	public void setID(int ID)
+	{
+		this.ID = ID;
+	}
+	
+	public int getID()
+	{
+		return this.ID;
+	}
+	
 	public void addWordToPosition(int sentenceNumb, int wordPos)
 	{
 		wordPosition.add(new WordPosition(sentenceNumb, wordPos));
 		
+	}
+	
+	public void setRank(double rank)
+	{
+		this.rank = rank;
+	}
+	
+	public double getRank()
+	{
+		return this.rank;
 	}
 	
 	public String getWord()

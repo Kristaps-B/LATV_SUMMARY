@@ -52,6 +52,7 @@ public class SummController {
 							public void run()
 							{
 								loadFile(file);
+								sentenceList = null;
 							}
 						}.start();
 						
@@ -155,8 +156,18 @@ public class SummController {
 		
 		ArrayList <Word> wordList = model.getWordList(sentenceList);
 		
-		double [][] simMatrix = model.getWordSimmMatrix(wordList);
+		int [][] simMatrix = model.getWordSimmMatrix(wordList);
 		
+		wordList = model.getWordScore(wordList, simMatrix);
+		
+		Word [] rezWordList =  model.getKeyWords(wordList, 6);
+		
+		System.out.println("Rezultats ir:");
+		if (rezWordList != null)
+		for (Word w: rezWordList)
+		{
+			System.out.println(w.getID()+") "+w.getWord()+" "+w.getRank());
+		}
 		
 		//Beigas
 		view.setProgress("Atslegvârdi tika veiksmîgi novertçti");

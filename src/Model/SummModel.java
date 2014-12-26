@@ -25,7 +25,7 @@ public class SummModel {
 		ArrayList <Sentence> rez = null;
 		
 		//Apstrada tekstu
-		TextProcessing textProcessing = new TextProcessing(text);
+		SentenceSplitter textProcessing = new SentenceSplitter(text);
 		textProcessing.splitIntoSentences();
 		
 		rez = textProcessing.getSentenceList();
@@ -50,7 +50,7 @@ public class SummModel {
 		ArrayList <Sentence> rez = null;
 		
 		//Veic textrank algoritmu
-		TextRank textRank = new TextRank(simMatrix);
+		TextRankSent textRank = new TextRankSent(simMatrix);
 		textRank.startTextRank();
 		
 		double [] sentRank = textRank.getScoreVector();
@@ -111,13 +111,47 @@ public class SummModel {
 		return result;
 	}
 	
-	public double [][] getWordSimmMatrix(ArrayList <Word> wordList)
+	public int [][] getWordSimmMatrix(ArrayList <Word> wordList)
 	{
-		double [][] rez = null;
+		int [][] rez = null;
 		
 		WordSimMatrix wordSimMatrix = new WordSimMatrix(wordList);
 		wordSimMatrix.generateWordSimMatrix();
 		
+		rez = wordSimMatrix.getSimMatrix();
+		
+		
+		return rez;
+	}
+	
+	public ArrayList <Word> getWordScore(ArrayList <Word> wordList ,int [][] simMatrix)
+	{
+		
+		double [] rank = null;
+		
+		TextRankWord textRankWord = new TextRankWord(simMatrix);
+		
+		textRankWord.startTextRank();
+		
+		rank = textRankWord.getScoreVector();
+		
+		for (int i=0; i<wordList.size();i++)
+		{
+			wordList.get(i).setRank(rank[i]);
+		}
+				
+				
+		return wordList;
+	}
+	
+	public Word [] getKeyWords(ArrayList <Word> wordList, int n)
+	{
+		
+		Word [] rez = null;
+		KeyWords keyWords = new KeyWords(wordList);
+		
+		
+		rez = keyWords.getNWords(n);
 		
 		return rez;
 	}

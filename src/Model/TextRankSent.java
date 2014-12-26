@@ -1,6 +1,6 @@
 package Model;
 
-public class TextRank {
+public class TextRankSent {
 	
 	private double [][] simMatrix;
 	private double [] scoreVector;
@@ -8,7 +8,7 @@ public class TextRank {
 	
 	private final double d = 0.85;
 	
-	public TextRank (double [][] simMatrix)
+	public TextRankSent (double [][] simMatrix)
 	{
 		this.simMatrix = simMatrix;
 		scoreVector = new double [simMatrix.length];

@@ -35,7 +35,7 @@ public class WordListGenerator {
 				if ((poz = getPositionInAllWordList(wordList.get(j), allWordList)) == allWordList.size())
 				{
 					allWordList.add((new Word(wordList.get(j))));
-					
+					allWordList.get(allWordList.size()-1).setID(allWordList.size()-1);
 					
 				}
 				allWordList.get(poz).addWordToPosition(i, j);
@@ -43,7 +43,7 @@ public class WordListGenerator {
 				//Veido pozi
 			}
 			
-			writeWordList();
+			//writeWordList();
 		}
 	}
 	

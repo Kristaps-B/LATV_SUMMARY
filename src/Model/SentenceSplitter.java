@@ -3,13 +3,13 @@ import java.util.ArrayList;
 
 
 
-public class TextProcessing {
+public class SentenceSplitter {
 	
 	private String text = null;
 	
 	private ArrayList <Sentence> sentenceList = new ArrayList<>();
 	
-	public TextProcessing(String text)
+	public SentenceSplitter(String text)
 	{
 		this.text = text;
 		
