@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 
 import Model.Sentence;
 import Model.SentenceComparison;
+import Model.Word;
 
 public abstract class View {
 	
@@ -17,11 +18,11 @@ public abstract class View {
 	public abstract void addLoadButtonEvent(ActionListener actionListener);
 	public abstract void setFileTextField(String text);
 	public abstract File showFileDialog();
-	public abstract void addChangeListener(ChangeListener changeListener);
+	public abstract void addChangeListenerSent(ChangeListener changeListener);
 	public abstract void setTextArea(String text);
 	public abstract void showTextTable(ArrayList <Sentence> sentenceList);
 	public abstract void showSimMatrixTable(double [][] simMatrix);
-	public abstract int getSliderValue();
+	public abstract int getSliderSentValue();
 	public abstract void showSummaryText(Sentence [] sentArray);
 	public abstract void addTableMouseListener(MouseAdapter mouseAdapter);
 	public abstract int getRowAtPoint(Point point);
@@ -38,4 +39,7 @@ public abstract class View {
 	public abstract void enableKeyWordButton();
 	public abstract void disableKeyWordButton();
 	public abstract void addKeyWordButtonEven(ActionListener actionListener);
+	public abstract void showKeyWordText(Word [] wordArray);
+	public abstract int getSliderWordsValue();
+	public abstract void addChangeListenerKWords(ChangeListener changeListener);
 }

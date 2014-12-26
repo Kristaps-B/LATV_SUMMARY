@@ -20,6 +20,7 @@ public class SummController {
 	private SummModel model;
 	private View view;
 	private ArrayList <Sentence> sentenceList;
+	private ArrayList <Word> wordList;
 	private String text;
 	
 	
@@ -107,14 +108,24 @@ public class SummController {
 			}	
 		);
 		
-		view.addChangeListener(new ChangeListener()
+		view.addChangeListenerSent(new ChangeListener()
 			{
 				@Override
 				public void stateChanged(ChangeEvent e)
 				{
-					sliderChanged();
+					sliderSentChanged();
 				}
 			}
+		);
+		
+		view.addChangeListenerKWords(new ChangeListener()
+			{
+				@Override
+				public void stateChanged(ChangeEvent e)
+				{
+					sliderWordsChanged();
+				}
+			}		
 		);
 		
 		view.addTableMouseListener(new MouseAdapter()
@@ -154,20 +165,13 @@ public class SummController {
 		
 		view.setProgress("Progress: Iegust potenciâlo vârdu sarakstu, uzgaidiet...");
 		
-		ArrayList <Word> wordList = model.getWordList(sentenceList);
+		wordList = model.getWordList(sentenceList);
 		
 		int [][] simMatrix = model.getWordSimmMatrix(wordList);
 		
 		wordList = model.getWordScore(wordList, simMatrix);
 		
-		Word [] rezWordList =  model.getKeyWords(wordList, 6);
-		
-		System.out.println("Rezultats ir:");
-		if (rezWordList != null)
-		for (Word w: rezWordList)
-		{
-			System.out.println(w.getID()+") "+w.getWord()+" "+w.getRank());
-		}
+		showKeyWordText();
 		
 		//Beigas
 		view.setProgress("Atslegvârdi tika veiksmîgi novertçti");
@@ -220,14 +224,28 @@ public class SummController {
 	
 	private void showSummaryText()
 	{
-		Sentence [] sentArray = model.getSummary(view.getSliderValue(), sentenceList);
+		Sentence [] sentArray = model.getSummary(view.getSliderSentValue(), sentenceList);
 		
 		view.showSummaryText(sentArray);
 	}
 	
-	private void sliderChanged()
+	
+	private void showKeyWordText()
+	{
+		Word [] wordArray = model.getKeyWords(wordList, view.getSliderWordsValue());
+		
+		view.showKeyWordText(wordArray);
+	}
+	
+	
+	private void sliderSentChanged()
 	{
 		showSummaryText();
+	}
+	
+	private void sliderWordsChanged()
+	{
+		showKeyWordText();
 	}
 	
 	private void showTwoSentenceComparison(int row, int col)

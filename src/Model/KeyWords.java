@@ -87,7 +87,7 @@ public class KeyWords {
 		Word [] rankedWords = sortByRank(wordArray);  
 		
 		
-		for (int i = 0; i<n; i++)
+		for (int i = 0; i< rez.length; i++)
 		{
 			rez[i] = rankedWords[i];
 		}

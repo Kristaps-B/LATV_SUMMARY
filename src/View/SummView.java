@@ -29,6 +29,7 @@ import javax.swing.BorderFactory;
 
 import Model.Sentence;
 import Model.SentenceComparison;
+import Model.Word;
 
 
 public class SummView extends View {
@@ -36,13 +37,17 @@ public class SummView extends View {
 	private JFrame frame;
 	private JPanel panelSentSumm;
 	private JPanel panelKeyWords;
+	
 	private JPanel centerPanel_1;
 	private JPanel centerPanel_2;
 	private JPanel centerPanel_3;
 	private JPanel centerPanel_4;
+	private JPanel centerPanel_5;
+	
 	private JPanel northPanel;
 	private JTextArea textArea;
 	private JTextArea summTextArea;
+	private JTextArea keyWordTextArea;
 	private JTextField fileText;
 	private JButton loadButton;
 	private JTable sentTable;
@@ -52,7 +57,8 @@ public class SummView extends View {
 	private JTabbedPane jtb;
 	private JTabbedPane jtb_1;
 	private JTabbedPane jtb_2;
-	private JSlider slider;
+	private JSlider sliderSent;
+	private JSlider sliderWords;
 	private JButton sentSummButton;
 	private JButton keyWordButton;
 	private JLabel progressLabel;
@@ -69,10 +75,12 @@ public class SummView extends View {
 		createSentSummButton();
 		createKeyWordButton();
 		createSummTextArea();
+		createKeyWordTextArea();
 		createFileLoading();
 		createSentenceTable();
 		createSentenceSimilarityMatrix();
-		createSlider();
+		createSliderSent();
+		createSliderWords();
 		showAll();
 	}
 	
@@ -132,6 +140,8 @@ public class SummView extends View {
 		centerPanel_2 = new JPanel();
 		centerPanel_3 = new JPanel();
 		centerPanel_4 = new JPanel();
+		centerPanel_5 = new JPanel();
+		
 		northPanel = new JPanel();
 		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
@@ -140,10 +150,13 @@ public class SummView extends View {
 		
 		
 		jtb_1.setPreferredSize(new Dimension(800,410));
+		jtb_2.setPreferredSize(new Dimension(800,410));
 		
 		jtb_1.addTab("Teksta teikumi", centerPanel_2);
 		jtb_1.addTab("Teikumu lîdzibas matrica", centerPanel_3);
 		jtb_1.addTab("Kopsavilkums", centerPanel_4);
+		
+		jtb_2.addTab("Atslegvârdi", centerPanel_5);
 		
 		
 		
@@ -152,6 +165,8 @@ public class SummView extends View {
 		jtb.setEnabledAt(2, false);
 		
 		panelSentSumm.add(jtb_1, BorderLayout.CENTER);
+		panelKeyWords.add(jtb_2, BorderLayout.CENTER);
+		
 		frame.add(jtb, BorderLayout.CENTER);
 		frame.add(northPanel, BorderLayout.NORTH);
 	}
@@ -183,6 +198,17 @@ public class SummView extends View {
 		summTextArea.setLineWrap(true);
 		summTextArea.setEditable(false);
 		centerPanel_4.add(summScrollPane);
+	}
+	
+	private void createKeyWordTextArea()
+	{
+		//Veido kopsavilkuma teksta logu
+		keyWordTextArea = new JTextArea("",18,70);
+		JScrollPane keyScrollPane = new JScrollPane(keyWordTextArea );
+		keyWordTextArea.setEnabled(false);
+		keyWordTextArea.setLineWrap(true);
+		keyWordTextArea.setEditable(false);
+		centerPanel_5.add(keyScrollPane);
 	}
 	
 	private void createFileLoading()
@@ -267,19 +293,34 @@ public class SummView extends View {
 		centerPanel_3.add(simTableScrollPane);
 	}
 	
-	private void createSlider()
+	private void createSliderSent()
 	{
 		//Izveido slaideru
-		slider = new JSlider(JSlider.HORIZONTAL,0,100,50);
-		slider.setEnabled(false);
-		centerPanel_4.add(slider);
+		sliderSent = new JSlider(JSlider.HORIZONTAL,0,100,50);
+		sliderSent.setEnabled(false);
+		centerPanel_4.add(sliderSent);
 		
-		slider.setBorder(BorderFactory.createTitledBorder("Kopsavilkuma apjoms procentos no sâkumâ teksta!"));
-		slider.setMinorTickSpacing(5);
-		slider.setPaintTicks(true);
-		slider.setMajorTickSpacing(25);
-		slider.setPaintLabels(true);
-		slider.setPreferredSize(new Dimension(600,70));
+		sliderSent.setBorder(BorderFactory.createTitledBorder("Kopsavilkuma apjoms procentos no sâkumâ teksta!"));
+		sliderSent.setMinorTickSpacing(5);
+		sliderSent.setPaintTicks(true);
+		sliderSent.setMajorTickSpacing(25);
+		sliderSent.setPaintLabels(true);
+		sliderSent.setPreferredSize(new Dimension(600,70));
+	}
+	
+	private void createSliderWords()
+	{
+		//Izveido slaideru
+		sliderWords = new JSlider(JSlider.HORIZONTAL,0,100,10);
+		sliderWords.setEnabled(false);
+		centerPanel_5.add(sliderWords);
+		
+		sliderWords.setBorder(BorderFactory.createTitledBorder("Atslegvârdu apjoms procentos no visiem vârdiem!"));
+		sliderWords.setMinorTickSpacing(5);
+		sliderWords.setPaintTicks(true);
+		sliderWords.setMajorTickSpacing(25);
+		sliderWords.setPaintLabels(true);
+		sliderWords.setPreferredSize(new Dimension(600,70));
 	}
 	
 	@Override
@@ -386,16 +427,22 @@ public class SummView extends View {
 	}
 	
 	@Override
-	public void addChangeListener(ChangeListener changeListener)
+	public void addChangeListenerSent(ChangeListener changeListener)
 	{
-		slider.addChangeListener(changeListener);
+		sliderSent.addChangeListener(changeListener);
 	}
 	
 	@Override
-	public int getSliderValue()
+	public void addChangeListenerKWords(ChangeListener changeListener)
+	{
+		sliderWords.addChangeListener(changeListener);
+	}
+	
+	@Override
+	public int getSliderSentValue()
 	{
 		int rez = 0;
-		rez = slider.getValue();
+		rez = sliderSent.getValue();
 		return rez;
 	}
 	
@@ -471,9 +518,25 @@ public class SummView extends View {
 			summary += sentArray[i].getID()+ ") <Rangs: "+sentArray[i].getRank()+"> "+sentArray[i].getOriginalSentence() + "\n";
 		}
 		
-		slider.setEnabled(true);
+		sliderSent.setEnabled(true);
 		summTextArea.setEnabled(true);
 		summTextArea.setText(summary);
+	}
+	
+	@Override
+	public void showKeyWordText(Word [] wordArray)
+	{
+		String keyWords = "";
+		
+		for (int i=0; i<wordArray.length; i++)
+		{
+			keyWords += wordArray[i].getID()+ ") <Rangs: "+wordArray[i].getRank()+"> "+wordArray[i].getWord() + "\n";
+		}
+		
+		sliderWords.setEnabled(true);
+		keyWordTextArea.setEnabled(true);
+		keyWordTextArea.setText(keyWords);
+		
 	}
 	
 	@Override
@@ -499,6 +562,12 @@ public class SummView extends View {
 	public void showError(String errorTxt)
 	{
 		JOptionPane.showMessageDialog(frame, errorTxt);
+	}
+	
+	@Override
+	public int getSliderWordsValue()
+	{
+		return sliderWords.getValue();
 	}
 	
 	@Override

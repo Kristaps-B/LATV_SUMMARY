@@ -150,8 +150,13 @@ public class SummModel {
 		Word [] rez = null;
 		KeyWords keyWords = new KeyWords(wordList);
 		
+		int n_max = wordList.size();
 		
-		rez = keyWords.getNWords(n);
+		int proc = n;
+		
+		int summ_amount = (int)Math.round(n_max *(proc/100.0));
+		
+		rez = keyWords.getNWords(summ_amount);
 		
 		return rez;
 	}
