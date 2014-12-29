@@ -3,6 +3,93 @@ package Model;
 public class WordComparison {
 	
 	
+	private String [] wordBegining = {
+		"aiz",
+		"ap",
+		"at",
+		"bez",
+		"caur",
+		"ie",
+		"iz",
+		"ne",
+		"no",
+		"pa",
+		"pâr",
+		"pçc",
+		"pie",
+		"pret",
+		"sa",
+		"uz",
+		//Ne
+		"neaiz",
+		"neap",
+		"neat",
+		"nebez",
+		"necaur",
+		"neie",
+		"neiz",
+		"neno",
+		"nepa",
+		"nepâr",
+		"nepçc",
+		"nepie",
+		"nepret",
+		"nesa",
+		"neuz"
+	};
+	
+	private String [] wordEnding = {
+		//Pamata galotnes
+		"s",
+		"ð",
+		"is",
+		"us",
+		"a",
+		"e",
+		//Locijumu galotnes
+		//Nom
+		"i",
+		"as",
+		"es",
+		"âs",
+		"ies",
+		//Ìen
+		"u",
+		"os",
+		//Dat
+		"am",
+		"iem",
+		"im",
+		"um",
+		"ai",
+		"âm",
+		"ei",
+		"çm",
+		"ij",
+		"îm",
+		"ûm",
+		//Akuz
+		"l",
+		"iu",
+		//Lok
+		"î",
+		"û",
+		"ç",
+		"çs",
+		"ûs",
+		//Vok
+		//.....
+		//Darbîbas vârdi
+		"t",
+		"o",
+		"inâ",
+		"aïâ",
+		"alç",
+		"elç",
+		"uïo"
+		
+	};
+	
 	private String getCommonLongestSubstring(String word1, String word2)
 	{
 		String commonSubstring = null;
@@ -41,11 +128,80 @@ public class WordComparison {
 	
 	public boolean isSameWords(String word1, String word2)
 	{
+		//Ja vienâdi vârdi
+		if (word1.equals(word2)) return true;
+		
 		String commonSubstring = getCommonLongestSubstring(word1, word2);
 		
+		if (commonSubstring.length()<2) return false;
+		
+		/*
 		if (commonSubstring.length()>=word1.length()*0.75 || commonSubstring.length()>=word2.length()*0.75)
 		{
 			return true;
+		}
+		*/
+		
+		//Ja nav vienâdi pârbauda tâlâk
+		
+		//Sadala pçc kopejâs virknes
+		String w1_begining = mySplit(word1, commonSubstring)[0];
+		String w1_ending = mySplit(word1, commonSubstring)[1];
+		
+		String w2_begining = mySplit(word2, commonSubstring)[0];
+		String w2_ending = mySplit(word2, commonSubstring)[1];
+		
+		/*
+		System.out.println("---------------------------------------------------------------------------");
+		System.out.println("Pirmais vârds sastâv: "+w1_begining+" - "+commonSubstring+" - "+w1_end);
+		System.out.println("Pirmais vârds sastâv: "+w2_begining+" - "+commonSubstring+" - "+w2_end);
+		*/
+		
+		if (isValidWordBegining(w1_begining) &&
+			isValidWordBegining(w2_begining) &&	
+			isValidWordEnding(w1_ending) &&	
+			isValidWordEnding(w2_ending)
+		) return true;
+		
+		
+		
+		
+		return false;
+	}
+	
+	public String [] mySplit(String originalWord, String splitter)
+	{
+		String [] result = new String[2];
+		
+		int startPos = originalWord.indexOf(splitter);
+		int endPos = startPos+splitter.length();
+		
+		result[0] = originalWord.substring(0, startPos);
+		result[1] = originalWord.substring(endPos, originalWord.length());
+		
+		
+		return result;
+	}
+	
+	public boolean isValidWordBegining(String word)
+	{
+		if (word.length()==0) return true;
+		
+		for (String w: wordBegining)
+		{
+			if (w.equals(word)) return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean isValidWordEnding(String word)
+	{
+		if (word.length()==0) return true;
+		
+		for (String w: wordEnding)
+		{
+			if (w.equals(word)) return true;
 		}
 		
 		return false;

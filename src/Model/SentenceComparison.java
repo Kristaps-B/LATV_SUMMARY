@@ -47,7 +47,7 @@ public class SentenceComparison {
 			String word = wordArr[i];
 			for (String w: s1.getWordList())
 			{
-				if (wordComparison.isSameWords(w, word) && !isInString(wordsArray[i], w))
+				if (wordComparison.isSameWords(w, word))
 				{
 					wordsArray[i]+=w+" ";
 				}
@@ -129,6 +129,7 @@ public class SentenceComparison {
 			
 			String word = wordList.get(i);
 			for (String w: s1.getWordList() )
+			//for (int j=0; j<s1.getWordList().size(); j++)
 			{
 				if (wordComparison.isSameWords(w, word))
 				{

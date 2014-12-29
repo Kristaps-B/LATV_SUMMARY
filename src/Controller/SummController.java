@@ -206,6 +206,8 @@ public class SummController {
 	
 		sentenceList = model.getSentenceList(text);
 		
+		wordList = model.getWordList(sentenceList);
+		
 		view.setProgress("Progress: Veido teikumu tuvuma matricu, uzgaidiet...");
 		
 		double [][] simMatrix = model.getSimilarityMatrix(sentenceList, view);

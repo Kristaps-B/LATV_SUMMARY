@@ -9,6 +9,8 @@ public class Sentence {
 	
 	private final int ID;
 	
+	private int [] wordID;
+	
 	private double rank;
 	
 	
@@ -19,6 +21,7 @@ public class Sentence {
 		this.ID = ID;
 		
 		createWordList();
+		createWordIDArray(wordList.size());
 	}
 	
 	private void createWordList()
@@ -95,6 +98,21 @@ public class Sentence {
 	public void setRank(double rank)
 	{
 		this.rank = rank;
+	}
+	
+	private void createWordIDArray(int length)
+	{
+		wordID = new int[length];
+	}
+	
+	public void setWordID(int index, int ID)
+	{
+		wordID[index] = ID;
+	}
+	
+	public int getWordID(int index)
+	{
+		return wordID[index];
 	}
 	
 	

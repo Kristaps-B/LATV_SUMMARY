@@ -87,7 +87,7 @@ public class SummView extends View {
 	private void createWindow()
 	{
 		//Veido logu
-		frame = new JFrame("LATV_SUMMARY (Kristaps Babrovskis ITI) ");
+		frame = new JFrame("LATV_SUMMARY 0.6.2(Kristaps Babrovskis ITI) ");
 		frame.setSize(840,540);
 		frame.setLayout(new BorderLayout());
 		
@@ -530,7 +530,7 @@ public class SummView extends View {
 		
 		for (int i=0; i<wordArray.length; i++)
 		{
-			keyWords += wordArray[i].getID()+ ") <Rangs: "+wordArray[i].getRank()+"> "+wordArray[i].getWord() + "\n";
+			keyWords += wordArray[i].getID()+ ") <Rangs: "+wordArray[i].getRank()+" frekvence "+wordArray[i].getWordPosList().size()+"> "+wordArray[i].getWord() +"\n";
 		}
 		
 		sliderWords.setEnabled(true);
