@@ -86,8 +86,20 @@ public class WordComparison {
 		"aïâ",
 		"alç",
 		"elç",
-		"uïo"
-		
+		"uïo",
+		//îpaðîbas vârdi
+		"ajam",
+		"ais",
+		"ai",
+		"ajai",
+		"ajâ",
+		"iem",
+		"ajiem",
+		"ajos",
+		"os",
+		"ajâm",
+		"ajâ",
+		"ajâs"
 	};
 	
 	private String getCommonLongestSubstring(String word1, String word2)
