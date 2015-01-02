@@ -43,6 +43,8 @@ public class SummView extends View {
 	private JPanel centerPanel_3;
 	private JPanel centerPanel_4;
 	private JPanel centerPanel_5;
+	private JPanel centerPanel_6;
+	private JPanel centerPanel_7;
 	
 	private JPanel northPanel;
 	private JTextArea textArea;
@@ -51,9 +53,13 @@ public class SummView extends View {
 	private JTextField fileText;
 	private JButton loadButton;
 	private JTable sentTable;
+	private JTable wordTable;
 	private JTable simTable;
+	private JTable wordSimTable;
 	private DefaultTableModel sentTableModel;
+	private DefaultTableModel wordTableModel;
 	private DefaultTableModel simTableModel;
+	private DefaultTableModel wordSimTableModel;
 	private JTabbedPane jtb;
 	private JTabbedPane jtb_1;
 	private JTabbedPane jtb_2;
@@ -78,7 +84,9 @@ public class SummView extends View {
 		createKeyWordTextArea();
 		createFileLoading();
 		createSentenceTable();
+		createWordTable();
 		createSentenceSimilarityMatrix();
+		createWordSimilarityMatrix();
 		createSliderSent();
 		createSliderWords();
 		showAll();
@@ -141,12 +149,14 @@ public class SummView extends View {
 		centerPanel_3 = new JPanel();
 		centerPanel_4 = new JPanel();
 		centerPanel_5 = new JPanel();
+		centerPanel_6 = new JPanel();
+		centerPanel_7 = new JPanel();
 		
 		northPanel = new JPanel();
 		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
 		jtb.addTab("Teikumu kopsavilkums", panelSentSumm);
-		jtb.addTab("Atslegvârdi", panelKeyWords);
+		jtb.addTab("Atslegvârdi (Nav gatavs!)", panelKeyWords);
 		
 		
 		jtb_1.setPreferredSize(new Dimension(800,410));
@@ -156,7 +166,10 @@ public class SummView extends View {
 		jtb_1.addTab("Teikumu lîdzibas matrica", centerPanel_3);
 		jtb_1.addTab("Kopsavilkums", centerPanel_4);
 		
+		jtb_2.addTab("Vârdi", centerPanel_6);
+		jtb_2.addTab("Vârdu lîdzîbas matrica", centerPanel_7);
 		jtb_2.addTab("Atslegvârdi", centerPanel_5);
+		
 		
 		
 		
@@ -262,6 +275,74 @@ public class SummView extends View {
 		
 		
 		centerPanel_2.add(tableScrollPane);
+	}
+	
+	private void createWordTable()
+	{
+		//Pievieno teikumu tabulu
+		wordTableModel = new DefaultTableModel(0,0)
+		{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column)
+			{
+				return false;
+			}
+		};
+		
+		wordTable = new JTable(wordTableModel);
+		
+		
+		
+		String [] columns = {"Nr.","Vârds", "TextRank vçrtçjums"};
+		
+		wordTableModel.setColumnIdentifiers(columns);
+		
+		
+		JScrollPane tableScrollPane = new JScrollPane(wordTable);
+		wordTable.getTableHeader().setReorderingAllowed(false);
+		
+		wordTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		wordTable.setPreferredScrollableViewportSize(new Dimension(680,300));
+		
+		wordTable.getColumnModel().getColumn(0).setPreferredWidth(60);
+		wordTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+		wordTable.getColumnModel().getColumn(2).setPreferredWidth(200);
+		
+		
+		centerPanel_6.add(tableScrollPane);
+	}
+	
+	private void createWordSimilarityMatrix()
+	{
+		//Pievieno teikumu tuvibas tabulu
+		wordSimTableModel = new DefaultTableModel(0,0)
+		{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column)
+			{
+				return false;
+			}
+		};
+		wordSimTable = new JTable(wordSimTableModel);
+		
+		
+		JScrollPane wordSimTableScrollPane = new JScrollPane(wordSimTable);
+		wordSimTable.getTableHeader().setReorderingAllowed(false);
+		
+		wordSimTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		wordSimTable.setPreferredScrollableViewportSize(new Dimension(680,300));	
+		
+		centerPanel_7.add(wordSimTableScrollPane);
 	}
 	
 	private void createSentenceSimilarityMatrix()
@@ -455,7 +536,7 @@ public class SummView extends View {
 		textArea.setText(text);
 	}
 	
-	
+	@Override
 	public void showTextTable(ArrayList <Sentence> sentenceList)
 	{
 		int i = 0;
@@ -477,6 +558,27 @@ public class SummView extends View {
 		}
 	}
 	
+	@Override
+	public void showWordTable(ArrayList <Word> wordList)
+	{
+		int i = 0;
+		
+		wordTableModel.setRowCount(wordList.size());
+		
+		
+		for (Word s:wordList)
+		{
+			wordTableModel.setValueAt(""+(i+1), i, 0);
+			
+			wordTableModel.setValueAt(s.getWord(), i, 1);
+			
+			wordTableModel.setValueAt(s.getRank()+"", i, 2);
+			
+			i++;
+		}
+	}
+	
+	@Override
 	public void showSimMatrixTable(double [][] simMatrix)
 	{
 		int dimensionCount = simMatrix.length + 1; 
@@ -500,6 +602,36 @@ public class SummView extends View {
 					simTableModel.setValueAt(""+simMatrix[j-1][i-1], j, i);
 				}
 				simTableModel.setValueAt("", 0, 0);
+			}
+		}
+		
+		
+	}
+	
+	@Override
+	public void showWordSimMatrixTable(int [][] simMatrix)
+	{
+		int dimensionCount = simMatrix.length + 1; 
+		wordSimTableModel.setColumnCount(dimensionCount);
+		wordSimTableModel.setRowCount(dimensionCount);
+		
+		for (int i = 0; i< dimensionCount;i++)
+		{
+			for (int j=0; j< dimensionCount;j++)
+			{
+				if (j == 0)
+				{
+					wordSimTableModel.setValueAt(""+i, j, i);
+				}
+				else if (i == 0)
+				{
+					wordSimTableModel.setValueAt(""+j, j, i);
+				}
+				else
+				{
+					wordSimTableModel.setValueAt(""+simMatrix[j-1][i-1], j, i);
+				}
+				wordSimTableModel.setValueAt("", 0, 0);
 			}
 		}
 		

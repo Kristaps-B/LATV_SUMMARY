@@ -165,11 +165,18 @@ public class SummController {
 		
 		view.setProgress("Progress: Iegust potenciâlo vârdu sarakstu, uzgaidiet...");
 		
+		
 		wordList = model.getWordList(sentenceList);
+		
+		
 		
 		int [][] simMatrix = model.getWordSimmMatrix(wordList);
 		
 		wordList = model.getWordScore(wordList, simMatrix);
+		
+		view.showWordSimMatrixTable(simMatrix);
+		
+		view.showWordTable(wordList);
 		
 		showKeyWordText();
 		

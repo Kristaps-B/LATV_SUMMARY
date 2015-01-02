@@ -13,10 +13,12 @@ public class KeyWords {
 		
 		createWordArray();
 		
+		/*
 		for (Word w: wordList)
 		{
 			System.out.println(w.getID()+" - "+w.getWord()+ " : "+w.getRank());
 		}
+		*/
 	}
 	
 	private void createWordArray()

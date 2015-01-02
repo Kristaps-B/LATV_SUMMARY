@@ -265,7 +265,9 @@ public class StopWords {
 		"abas",
 		"nekas",
 		"nekâds",
-		"neviens"
+		"neviens",
+		"kuros",
+		"visa"
 		};
 		
 		public static boolean isStopWord(String word)

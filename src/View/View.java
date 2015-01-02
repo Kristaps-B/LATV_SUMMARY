@@ -42,4 +42,6 @@ public abstract class View {
 	public abstract void showKeyWordText(Word [] wordArray);
 	public abstract int getSliderWordsValue();
 	public abstract void addChangeListenerKWords(ChangeListener changeListener);
+	public abstract void showWordTable(ArrayList <Word> wordList);
+	public abstract void showWordSimMatrixTable(int [][] simMatrix);
 }

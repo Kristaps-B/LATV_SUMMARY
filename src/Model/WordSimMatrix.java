@@ -52,7 +52,7 @@ public class WordSimMatrix {
 			
 		}
 		
-		writeSimMatrix();
+		//writeSimMatrix();
 		
 	}
 	
