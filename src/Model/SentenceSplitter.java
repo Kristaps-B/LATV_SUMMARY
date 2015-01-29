@@ -20,6 +20,7 @@ public class SentenceSplitter {
 		String sentence = "";
 		
 		int id = 1;
+		int charNumbInSent = 0;
 		
 		for (int i = 0;i<text.length();i++)
 		{
@@ -30,7 +31,8 @@ public class SentenceSplitter {
 			{
 				
 				sentence+=character;
-				if (isSentenceEnd(text, i))
+				charNumbInSent++;
+				if (isSentenceEnd(text, i) && charNumbInSent>3)
 				{
 					sentence = sentence.trim();
 					sentenceList.add(new Sentence(id, sentence));
@@ -38,6 +40,7 @@ public class SentenceSplitter {
 					id++;
 					
 					sentence ="";
+					charNumbInSent = 0;
 				}
 				
 			}

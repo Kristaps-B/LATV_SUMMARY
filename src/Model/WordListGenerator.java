@@ -27,19 +27,24 @@ public class WordListGenerator {
 	{
 		for (int i = 0; i< sentenceList.size(); i++)
 		{
-			ArrayList <String> wordList = sentenceList.get(i).getWordList();
+			ArrayList <OneWord> wordList = sentenceList.get(i).getWordList();
 			
 			
 			
 			for (int j = 0; j < wordList.size(); j++)
 			{
 				int poz = 0;
-				if ((poz = getPositionInAllWordList(wordList.get(j), allWordList)) == allWordList.size())
+				if ((poz = getPositionInAllWordList(wordList.get(j).getWord(), allWordList)) == allWordList.size())
 				{
-					allWordList.add((new Word(wordList.get(j))));
-					allWordList.get(allWordList.size()-1).setID(allWordList.size());
+					allWordList.add((new Word(wordList.get(j).getWord())));
+					int newID = allWordList.size();
+					allWordList.get(allWordList.size()-1).setID(newID);
+					
+					//Vel vairâk
+					
 					
 				}
+				wordList.get(j).setIndex(poz);
 				allWordList.get(poz).addWordToPosition(i, j);
 				sentenceList.get(i).setWordID(j, poz);
 				

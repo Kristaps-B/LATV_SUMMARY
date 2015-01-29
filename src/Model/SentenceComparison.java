@@ -45,18 +45,18 @@ public class SentenceComparison {
 		for (int i = 0; i< wordsArray.length; i++)
 		{
 			String word = wordArr[i];
-			for (String w: s1.getWordList())
+			for (OneWord w: s1.getWordList())
 			{
-				if (wordComparison.isSameWords(w, word))
+				if (wordComparison.isSameWords(w.getWord(), word))
 				{
-					wordsArray[i]+=w+" ";
+					wordsArray[i]+=w.getWord()+" ";
 				}
 			}
-			for (String w: s2.getWordList())
+			for (OneWord w: s2.getWordList())
 			{
-				if (wordComparison.isSameWords(w, word))
+				if (wordComparison.isSameWords(w.getWord(), word))
 				{
-					wordsArray[i]+=w+" ";
+					wordsArray[i]+=w.getWord()+" ";
 				}
 				
 			}
@@ -97,16 +97,16 @@ public class SentenceComparison {
 	{
 		
 		//Veido kopejo vardu vektoru
-		ArrayList <String> wordList = new ArrayList <>();
+		ArrayList <OneWord> wordList = new ArrayList <>();
 		
-		for (String w: s1.getWordList() )
+		for (OneWord w: s1.getWordList() )
 		{
 			if (!isWordInList(wordList, w))
 			{
 				wordList.add(w);
 			}
 		}
-		for (String w: s2.getWordList() )
+		for (OneWord w: s2.getWordList() )
 		{
 			if (!isWordInList(wordList, w))
 			{
@@ -127,11 +127,11 @@ public class SentenceComparison {
 		{
 			vector_1[i] = 0;
 			
-			String word = wordList.get(i);
-			for (String w: s1.getWordList() )
+			OneWord word = wordList.get(i);
+			for (OneWord w: s1.getWordList() )
 			//for (int j=0; j<s1.getWordList().size(); j++)
 			{
-				if (wordComparison.isSameWords(w, word))
+				if (w.getIndex() == word.getIndex())
 				{
 					vector_1[i]+=1;
 				}
@@ -144,10 +144,10 @@ public class SentenceComparison {
 		{
 			vector_2[i] = 0;
 			
-			String word = wordList.get(i);
-			for (String w: s2.getWordList() )
+			OneWord word = wordList.get(i);
+			for (OneWord w: s2.getWordList() )
 			{
-				if (wordComparison.isSameWords(w, word))
+				if (w.getIndex() == word.getIndex())
 				{
 					vector_2[i]+=1;
 				}
@@ -176,7 +176,7 @@ public class SentenceComparison {
 		
 		for (int i=0;i<wordArr.length;i++)
 		{
-			wordArr[i] = wordList.get(i);
+			wordArr[i] = wordList.get(i).getWord();
 		}
 		
 		firstSentVector = vector_1;
@@ -187,11 +187,11 @@ public class SentenceComparison {
 		return cosO;
 	}
 	
-	private boolean isWordInList(ArrayList <String> wordList, String word)
+	private boolean isWordInList(ArrayList <OneWord> wordList, OneWord word)
 	{
-		for (String w:wordList)
+		for (OneWord w:wordList)
 		{
-			if (wordComparison.isSameWords(w, word))
+			if (w.getIndex() == word.getIndex())
 			{
 				return true;
 			}

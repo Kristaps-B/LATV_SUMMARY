@@ -156,7 +156,7 @@ public class SummView extends View {
 		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
 		jtb.addTab("Teikumu kopsavilkums", panelSentSumm);
-		jtb.addTab("Atslegvârdi (Nav gatavs!)", panelKeyWords);
+		jtb.addTab("Atslegvârdi (Nav gatavs! Visdrîzâk vajadzçs noòemt.)", panelKeyWords);
 		
 		
 		jtb_1.setPreferredSize(new Dimension(800,410));

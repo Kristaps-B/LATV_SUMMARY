@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Sentence {
 	private String originalSentence = null;
 	
-	private ArrayList <String> wordList = new ArrayList<>();
+	private ArrayList <OneWord> wordList = new ArrayList<>();
 	
 	private final int ID;
 	
@@ -43,20 +43,10 @@ public class Sentence {
 			//System.out.print(wordArray[i]+" ");
 			if (!StopWords.isStopWord(wordArray[i]) && wordArray[i].length()>0)
 			{
-				wordList.add(wordArray[i]);
+				wordList.add(new OneWord(wordArray[i], -1));
 			}
 		}
-		
-		/*
-		System.out.println("Teikums ar svarigajiem vardiem:");
-		for (String w: wordList)
-		{
-			System.out.println(w);
-		}
 
-		
-		System.out.println("=============================================");
-		*/
 	}
 	
 	
@@ -68,7 +58,7 @@ public class Sentence {
 	
 	
 	
-	public ArrayList <String> getWordList()
+	public ArrayList <OneWord> getWordList()
 	{
 		return wordList;
 	}
@@ -77,9 +67,9 @@ public class Sentence {
 	{
 		String rez = "";
 		
-		for (String w:wordList)
+		for (OneWord w:wordList)
 		{
-			rez+=w+" ";
+			rez+=w.getWord()+" ["+w.getIndex()+"] ";
 		}
 		
 		return rez;
