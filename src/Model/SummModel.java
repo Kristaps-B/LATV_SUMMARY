@@ -111,6 +111,7 @@ public class SummModel {
 		return result;
 	}
 	
+	/*
 	public int [][] getWordSimmMatrix(ArrayList <Word> wordList)
 	{
 		int [][] rez = null;
@@ -123,7 +124,9 @@ public class SummModel {
 		
 		return rez;
 	}
+	*/
 	
+	/*
 	public ArrayList <Word> getWordScore(ArrayList <Word> wordList ,int [][] simMatrix)
 	{
 		
@@ -143,7 +146,10 @@ public class SummModel {
 				
 		return wordList;
 	}
+	*/
 	
+	
+	/*
 	public Word [] getKeyWords(ArrayList <Word> wordList, int n)
 	{
 		
@@ -160,6 +166,7 @@ public class SummModel {
 		
 		return rez;
 	}
+	*/
 	
 	
 }
