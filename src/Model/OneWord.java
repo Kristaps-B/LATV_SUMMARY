@@ -3,13 +3,12 @@ package Model;
 public class OneWord {
 	private String word;
 	private int index;
-	
-	public OneWord(String word, int index)
-	{
+
+	public OneWord(String word, int index) {
 		this.word = word;
 		this.index = index;
 	}
-	
+
 	public String getWord() {
 		return word;
 	}
@@ -25,6 +24,5 @@ public class OneWord {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-	
-	
+
 }

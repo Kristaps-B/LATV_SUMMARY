@@ -1,109 +1,91 @@
 package Model;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 
 public class Sentence {
 	private String originalSentence = null;
-	
-	private ArrayList <OneWord> wordList = new ArrayList<>();
-	
+
+	private ArrayList<OneWord> wordList = new ArrayList<>();
+
 	private final int ID;
-	
-	private int [] wordID;
-	
+
+	private int[] wordID;
+
 	private double rank;
-	
-	
-	
-	public Sentence(int ID, String originalSentence)
-	{
+
+	public Sentence(int ID, String originalSentence) {
 		this.originalSentence = originalSentence;
 		this.ID = ID;
-		
+
 		createWordList();
 		createWordIDArray(wordList.size());
 	}
-	
-	private void createWordList()
-	{
-		//Veido svarigo vardu sarakstu
-		String tempSentence = originalSentence.replaceAll("[^a-zA-ZÂÈÇÌÎÍÏÒĞÛŞâèçìîíïòğûş ]", "").replaceAll("  ", " ").toLowerCase();
-		
-		String [] wordArray = tempSentence.split(" ");
-		
+
+	private void createWordList() {
+		// Veido svarigo vardu sarakstu
+		String tempSentence = originalSentence
+				.replaceAll("[^a-zA-ZÂÈÇÌÎÍÏÒĞÛŞâèçìîíïòğûş ]", "")
+				.replaceAll("  ", " ").toLowerCase();
+
+		String[] wordArray = tempSentence.split(" ");
+
 		/*
-		System.out.println("=============================================");
-		System.out.println("Teikuma apstrade!");
-		System.out.println("Pagaidu teikums: "+tempSentence);
-		*/
-		
-		//Pievieno vardu sarakstam svarigos vardus
-		for (int i=0;i<wordArray.length;i++)
-		{
-			//System.out.print(wordArray[i]+" ");
-			if (!StopWords.isStopWord(wordArray[i]) && wordArray[i].length()>0)
-			{
+		 * System.out.println("=============================================");
+		 * System.out.println("Teikuma apstrade!");
+		 * System.out.println("Pagaidu teikums: "+tempSentence);
+		 */
+
+		// Pievieno vardu sarakstam svarigos vardus
+		for (int i = 0; i < wordArray.length; i++) {
+			// System.out.print(wordArray[i]+" ");
+			if (!StopWords.isStopWord(wordArray[i])
+					&& wordArray[i].length() > 0) {
 				wordList.add(new OneWord(wordArray[i], -1));
 			}
 		}
 
 	}
-	
-	
-	
-	public String getOriginalSentence()
-	{
+
+	public String getOriginalSentence() {
 		return originalSentence;
 	}
-	
-	
-	
-	public ArrayList <OneWord> getWordList()
-	{
+
+	public ArrayList<OneWord> getWordList() {
 		return wordList;
 	}
-	
-	public String getNewSentence()
-	{
+
+	public String getNewSentence() {
 		String rez = "";
-		
-		for (OneWord w:wordList)
-		{
-			rez+=w.getWord()+" ["+w.getIndex()+"] ";
+
+		for (OneWord w : wordList) {
+			rez += w.getWord() + " [" + w.getIndex() + "] ";
 		}
-		
+
 		return rez;
 	}
-	
-	public int getID()
-	{
+
+	public int getID() {
 		return ID;
 	}
-	
-	public double getRank()
-	{
+
+	public double getRank() {
 		return rank;
 	}
-	
-	public void setRank(double rank)
-	{
+
+	public void setRank(double rank) {
 		this.rank = rank;
 	}
-	
-	private void createWordIDArray(int length)
-	{
+
+	private void createWordIDArray(int length) {
 		wordID = new int[length];
 	}
-	
-	public void setWordID(int index, int ID)
-	{
+
+	public void setWordID(int index, int ID) {
 		wordID[index] = ID;
 	}
-	
-	public int getWordID(int index)
-	{
+
+	public int getWordID(int index) {
 		return wordID[index];
 	}
-	
-	
+
 }
