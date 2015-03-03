@@ -59,7 +59,7 @@ public class TextRankSent {
 	
 	private void textRankIteration()
 	{
-		double it_summ = 0;
+		//double it_summ = 0;
 		for (int i = 0; i< scoreVector.length; i++)
 		{
 			double pr_w_a = scoreVector[i];
@@ -94,7 +94,7 @@ public class TextRankSent {
 			b = d*b;
 			pr_w_a = a+b;
 			pr_w_a = Math.round(pr_w_a*100000.0)/100000.0;
-			it_summ+=pr_w_a;
+			//it_summ+=pr_w_a;
 			scoreVector[i] = pr_w_a;
 			//System.out.println("Jaunais novertejums: " + pr_w_a);
 		}

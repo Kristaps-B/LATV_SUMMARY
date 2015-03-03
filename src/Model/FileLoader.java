@@ -12,6 +12,7 @@ public class FileLoader {
 	
 	private String fileContent = null;
 	
+	@SuppressWarnings("resource")
 	public void loadFile(File file) throws Exception
 	{
 		String content = "";

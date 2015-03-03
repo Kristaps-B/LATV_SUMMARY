@@ -10,7 +10,6 @@ import javax.swing.event.ChangeListener;
 
 import Model.Sentence;
 import Model.SentenceComparison;
-import Model.Word;
 
 public abstract class View {
 	
@@ -36,12 +35,12 @@ public abstract class View {
 	public abstract void enableSummButtons();
 	public abstract void disableSummButtons();
 	public abstract void setProgress(String text);
-	public abstract void enableKeyWordButton();
-	public abstract void disableKeyWordButton();
-	public abstract void addKeyWordButtonEven(ActionListener actionListener);
-	public abstract void showKeyWordText(Word [] wordArray);
+	//public abstract void enableKeyWordButton();
+	//public abstract void disableKeyWordButton();
+	//public abstract void addKeyWordButtonEven(ActionListener actionListener);
+	//public abstract void showKeyWordText(Word [] wordArray);
 	public abstract int getSliderWordsValue();
 	public abstract void addChangeListenerKWords(ChangeListener changeListener);
-	public abstract void showWordTable(ArrayList <Word> wordList);
-	public abstract void showWordSimMatrixTable(int [][] simMatrix);
+	//public abstract void showWordTable(ArrayList <Word> wordList);
+	//public abstract void showWordSimMatrixTable(int [][] simMatrix);
 }

@@ -29,14 +29,13 @@ import javax.swing.BorderFactory;
 
 import Model.Sentence;
 import Model.SentenceComparison;
-import Model.Word;
 
 
 public class SummView extends View {
 	
 	private JFrame frame;
 	private JPanel panelSentSumm;
-	private JPanel panelKeyWords;
+	//private JPanel panelKeyWords;
 	
 	private JPanel centerPanel_1;
 	private JPanel centerPanel_2;
@@ -49,7 +48,6 @@ public class SummView extends View {
 	private JPanel northPanel;
 	private JTextArea textArea;
 	private JTextArea summTextArea;
-	private JTextArea keyWordTextArea;
 	private JTextField fileText;
 	private JButton loadButton;
 	private JTable sentTable;
@@ -62,11 +60,10 @@ public class SummView extends View {
 	private DefaultTableModel wordSimTableModel;
 	private JTabbedPane jtb;
 	private JTabbedPane jtb_1;
-	private JTabbedPane jtb_2;
+	//private JTabbedPane jtb_2;
 	private JSlider sliderSent;
 	private JSlider sliderWords;
 	private JButton sentSummButton;
-	private JButton keyWordButton;
 	private JLabel progressLabel;
 	
 	
@@ -79,9 +76,9 @@ public class SummView extends View {
 		createProgressLabel();
 		createTextArea();
 		createSentSummButton();
-		createKeyWordButton();
+		//createKeyWordButton();
 		createSummTextArea();
-		createKeyWordTextArea();
+		//createKeyWordTextArea();
 		createFileLoading();
 		createSentenceTable();
 		createWordTable();
@@ -108,24 +105,6 @@ public class SummView extends View {
 		centerPanel_1.add(progressLabel);
 	}
 	
-	private void createKeyWordButton()
-	{
-		keyWordButton =  new JButton("Atslegas vârdi");
-		centerPanel_1.add(keyWordButton);
-		keyWordButton.setEnabled(false);
-	}
-	
-	@Override
-	public void enableKeyWordButton()
-	{
-		keyWordButton.setEnabled(true);
-	}
-	
-	@Override
-	public void disableKeyWordButton()
-	{
-		keyWordButton.setEnabled(false);
-	}
 	
 	private void showAll()
 	{
@@ -139,10 +118,9 @@ public class SummView extends View {
 		//Izveido panelus
 		jtb = new JTabbedPane();
 		jtb_1 = new JTabbedPane();
-		jtb_2 = new JTabbedPane();
 		
 		panelSentSumm = new JPanel();
-		panelKeyWords = new JPanel();
+		
 		
 		centerPanel_1 = new JPanel();
 		centerPanel_2 = new JPanel();
@@ -156,29 +134,22 @@ public class SummView extends View {
 		
 		jtb.addTab("Sâkuma teksts", centerPanel_1);
 		jtb.addTab("Teikumu kopsavilkums", panelSentSumm);
-		jtb.addTab("Atslegvârdi (Nav gatavs! Visdrîzâk vajadzçs noòemt.)", panelKeyWords);
 		
 		
 		jtb_1.setPreferredSize(new Dimension(800,410));
-		jtb_2.setPreferredSize(new Dimension(800,410));
 		
 		jtb_1.addTab("Teksta teikumi", centerPanel_2);
 		jtb_1.addTab("Teikumu lîdzibas matrica", centerPanel_3);
 		jtb_1.addTab("Kopsavilkums", centerPanel_4);
 		
-		jtb_2.addTab("Vârdi", centerPanel_6);
-		jtb_2.addTab("Vârdu lîdzîbas matrica", centerPanel_7);
-		jtb_2.addTab("Atslegvârdi", centerPanel_5);
 		
 		
 		
 		
 		
 		jtb.setEnabledAt(1, false);
-		jtb.setEnabledAt(2, false);
 		
 		panelSentSumm.add(jtb_1, BorderLayout.CENTER);
-		panelKeyWords.add(jtb_2, BorderLayout.CENTER);
 		
 		frame.add(jtb, BorderLayout.CENTER);
 		frame.add(northPanel, BorderLayout.NORTH);
@@ -211,17 +182,6 @@ public class SummView extends View {
 		summTextArea.setLineWrap(true);
 		summTextArea.setEditable(false);
 		centerPanel_4.add(summScrollPane);
-	}
-	
-	private void createKeyWordTextArea()
-	{
-		//Veido kopsavilkuma teksta logu
-		keyWordTextArea = new JTextArea("",18,70);
-		JScrollPane keyScrollPane = new JScrollPane(keyWordTextArea );
-		keyWordTextArea.setEnabled(false);
-		keyWordTextArea.setLineWrap(true);
-		keyWordTextArea.setEditable(false);
-		centerPanel_5.add(keyScrollPane);
 	}
 	
 	private void createFileLoading()
@@ -434,7 +394,6 @@ public class SummView extends View {
 	{
 		jtb.setSelectedIndex(0);
 		jtb.setEnabledAt(1, false);
-		jtb.setEnabledAt(2,false);
 		/*
 		
 		
@@ -467,12 +426,6 @@ public class SummView extends View {
 	public void setFileTextField(String text)
 	{
 		fileText.setText(text);
-	}
-	
-	@Override
-	public void addKeyWordButtonEven(ActionListener actionListener)
-	{
-		keyWordButton.addActionListener(actionListener);
 	}
 	
 	@Override
@@ -559,26 +512,6 @@ public class SummView extends View {
 	}
 	
 	@Override
-	public void showWordTable(ArrayList <Word> wordList)
-	{
-		int i = 0;
-		
-		wordTableModel.setRowCount(wordList.size());
-		
-		
-		for (Word s:wordList)
-		{
-			wordTableModel.setValueAt(""+(i+1), i, 0);
-			
-			wordTableModel.setValueAt(s.getWord(), i, 1);
-			
-			wordTableModel.setValueAt(s.getRank()+"", i, 2);
-			
-			i++;
-		}
-	}
-	
-	@Override
 	public void showSimMatrixTable(double [][] simMatrix)
 	{
 		int dimensionCount = simMatrix.length + 1; 
@@ -608,35 +541,6 @@ public class SummView extends View {
 		
 	}
 	
-	@Override
-	public void showWordSimMatrixTable(int [][] simMatrix)
-	{
-		int dimensionCount = simMatrix.length + 1; 
-		wordSimTableModel.setColumnCount(dimensionCount);
-		wordSimTableModel.setRowCount(dimensionCount);
-		
-		for (int i = 0; i< dimensionCount;i++)
-		{
-			for (int j=0; j< dimensionCount;j++)
-			{
-				if (j == 0)
-				{
-					wordSimTableModel.setValueAt(""+i, j, i);
-				}
-				else if (i == 0)
-				{
-					wordSimTableModel.setValueAt(""+j, j, i);
-				}
-				else
-				{
-					wordSimTableModel.setValueAt(""+simMatrix[j-1][i-1], j, i);
-				}
-				wordSimTableModel.setValueAt("", 0, 0);
-			}
-		}
-		
-		
-	}
 	
 	@Override
 	public void showSummaryText(Sentence [] sentArray)
@@ -653,22 +557,6 @@ public class SummView extends View {
 		sliderSent.setEnabled(true);
 		summTextArea.setEnabled(true);
 		summTextArea.setText(summary);
-	}
-	
-	@Override
-	public void showKeyWordText(Word [] wordArray)
-	{
-		String keyWords = "";
-		
-		for (int i=0; i<wordArray.length; i++)
-		{
-			keyWords += wordArray[i].getID()+ ") <Rangs: "+wordArray[i].getRank()+" frekvence "+wordArray[i].getWordPosList().size()+"> "+wordArray[i].getWord() +"\n";
-		}
-		
-		sliderWords.setEnabled(true);
-		keyWordTextArea.setEnabled(true);
-		keyWordTextArea.setText(keyWords);
-		
 	}
 	
 	@Override

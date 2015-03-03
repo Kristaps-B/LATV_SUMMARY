@@ -12,7 +12,6 @@ import View.View;
 import Model.Sentence;
 import Model.SentenceComparison;
 import Model.SummModel;
-import Model.Word;
 
 
 public class SummController {
@@ -20,7 +19,6 @@ public class SummController {
 	private SummModel model;
 	private View view;
 	private ArrayList <Sentence> sentenceList;
-	private ArrayList <Word> wordList;
 	private String text;
 	
 	
@@ -89,6 +87,7 @@ public class SummController {
 			}		
 		);
 		
+		/*
 		view.addKeyWordButtonEven(new ActionListener()
 			{
 				@Override
@@ -107,6 +106,7 @@ public class SummController {
 				}
 			}	
 		);
+		*/
 		
 		view.addChangeListenerSent(new ChangeListener()
 			{
@@ -118,6 +118,7 @@ public class SummController {
 			}
 		);
 		
+		/*
 		view.addChangeListenerKWords(new ChangeListener()
 			{
 				@Override
@@ -127,6 +128,7 @@ public class SummController {
 				}
 			}		
 		);
+		*/
 		
 		view.addTableMouseListener(new MouseAdapter()
 			{
@@ -151,6 +153,7 @@ public class SummController {
 		
 	}
 	
+	/*
 	private void generateKeyWords(String text)
 	{
 		//Genere atslegas vardus
@@ -184,6 +187,7 @@ public class SummController {
 		view.setProgress("Atslegvârdi tika veiksmîgi novertçti");
 		
 	}
+	*/
 	
 	private void loadFile(File file)
 	{
@@ -194,8 +198,8 @@ public class SummController {
 			this.text = model.getFile(file);
 			view.setTextArea(text);
 			view.enableSummButtons();
-			view.enableKeyWordButton();
-			view.enableKeyWordButton();
+			//view.enableKeyWordButton();
+			//view.enableKeyWordButton();
 			view.setProgress("Progress: Teksts tika ieladçts...");
 		}
 		catch (Exception e)
@@ -213,7 +217,7 @@ public class SummController {
 	
 		sentenceList = model.getSentenceList(text);
 		
-		wordList = model.getWordList(sentenceList);
+		model.getWordList(sentenceList);
 		
 		view.setProgress("Progress: Veido teikumu tuvuma matricu, uzgaidiet...");
 		
@@ -238,13 +242,14 @@ public class SummController {
 		view.showSummaryText(sentArray);
 	}
 	
-	
+	/*
 	private void showKeyWordText()
 	{
 		Word [] wordArray = model.getKeyWords(wordList, view.getSliderWordsValue());
 		
 		view.showKeyWordText(wordArray);
 	}
+	*/
 	
 	
 	private void sliderSentChanged()
@@ -252,10 +257,12 @@ public class SummController {
 		showSummaryText();
 	}
 	
+	/*
 	private void sliderWordsChanged()
 	{
 		showKeyWordText();
 	}
+	*/
 	
 	private void showTwoSentenceComparison(int row, int col)
 	{

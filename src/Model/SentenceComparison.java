@@ -67,6 +67,7 @@ public class SentenceComparison {
 		return wordsArray;
 	}
 	
+	/*
 	private boolean isInString(String word, String  words)
 	{
 		String [] wordsArray = words.split(" ");
@@ -81,6 +82,7 @@ public class SentenceComparison {
 		
 		return false;
 	}
+	*/
 	
 	public int [] getFirstSentRank()
 	{

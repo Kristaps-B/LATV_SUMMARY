@@ -23,7 +23,7 @@ public class WordSimMatrix {
 		{
 			Word w1 = wordList.get(i);
 			ArrayList <WordPosition> wp1 = w1.getWordPosList();
-			double wordCount = wp1.size();
+			//double wordCount = wp1.size();
 			
 			//System.out.println(i+"---> " + wp1.size());
 			for (int j=0; j<simMatrix.length; j++)
@@ -70,7 +70,7 @@ public class WordSimMatrix {
 		return rezult;
 	}
 	
-	
+	/*
 	private void writeSimMatrix()
 	{
 		System.out.println("--------------------------------------");
@@ -82,7 +82,8 @@ public class WordSimMatrix {
 			}
 			System.out.println();
 		}
-	}
+	}°
+	*/
 	
 	public int [][] getSimMatrix()
 	{

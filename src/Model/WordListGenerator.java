@@ -55,6 +55,7 @@ public class WordListGenerator {
 		}
 	}
 	
+	/*
 	private void writeWordList()
 	{
 		for (Word w: allWordList)
@@ -63,6 +64,7 @@ public class WordListGenerator {
 			
 		}
 	}
+	*/
 	
 	private int getPositionInAllWordList(String word, ArrayList <Word> wordList)
 	{
