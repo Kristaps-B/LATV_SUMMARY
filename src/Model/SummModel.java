@@ -1,9 +1,11 @@
-package Model;
+package model;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import View.View;
+import opennlp.tools.sentdetect.SentenceDetector;
+import opennlp.tools.sentdetect.SentenceDetectorME;
+
 
 public class SummModel {
 
@@ -19,24 +21,30 @@ public class SummModel {
 		return rez;
 	}
 
-	public ArrayList<Sentence> getSentenceList(String text) {
+	public ArrayList<Sentence> getSentenceList(String text, SentenceDetectorME sentenceDetector) {
 		ArrayList<Sentence> rez = null;
 
 		// Apstrada tekstu
-		SentenceSplitter textProcessing = new SentenceSplitter(text);
-		textProcessing.splitIntoSentences();
+		SentenceSplitter textProcessing = null;
+		
+		if (sentenceDetector == null) {
+			textProcessing= new SentenceSplitter(text);
+			textProcessing.splitIntoSentences();
+		} else {
+			textProcessing = new SentenceSplitter(text, sentenceDetector);
+			textProcessing.splitIntoSentencesOpenNLP();
+		}
 
 		rez = textProcessing.getSentenceList();
 
 		return rez;
 	}
 
-	public double[][] getSimilarityMatrix(ArrayList<Sentence> sentenceList,
-			View view) {
+	public double[][] getSimilarityMatrix(ArrayList<Sentence> sentenceList) {
 		double[][] rez = null;
 
 		SentSimMatrix simMatrix = new SentSimMatrix(sentenceList);
-		simMatrix.createMatrix(view);
+		simMatrix.createMatrix();
 
 		rez = simMatrix.getSimMatrix();
 

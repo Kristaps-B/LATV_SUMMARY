@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class StopWords {
 	// Stop vardu saraksts
@@ -134,7 +134,7 @@ public class StopWords {
 			"kurð", "kâds", "daþs", "cits", "kaut", "diez", "diezin", "nez",
 			"nezin", "jebkas", "jebkurð", "jebkâds", "viss", "pats", "katrs",
 			"ikkatrs", "jebkurð", "jebkâds", "ikviens", "abi", "abas", "nekas",
-			"nekâds", "neviens", "kuros", "visa" };
+			"nekâds", "neviens", "kuros", "visa", "visu", "visiem" };
 
 	public static boolean isStopWord(String word) {
 		for (int i = 0; i < stopWordArray.length; i++) {

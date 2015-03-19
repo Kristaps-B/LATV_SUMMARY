@@ -5,13 +5,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import opennlp.tools.dictionary.Dictionary;
+import opennlp.tools.sentdetect.SentenceDetectorME;
+import opennlp.tools.sentdetect.SentenceModel;
+
+import model.Sentence;
+import model.SentenceComparison;
+import model.SummModel;
 import View.View;
-import Model.Sentence;
-import Model.SentenceComparison;
-import Model.SummModel;
 
 public class SummController {
 
@@ -116,14 +124,37 @@ public class SummController {
 	private void generateSummary(String text) {
 
 		view.setProgress("Progress: Sadala tekstu teikumos, uzgaidiet...");
+		
+		
+		//Sadala teikumos
+		
+		SentenceModel mod;
+		SentenceDetectorME sentenceDetector = null;
+		
+		try {
+				InputStream modelIn = new FileInputStream("lv-sent.bin");
+				System.out.println("Ielade!");
+				mod = new SentenceModel(modelIn);
+			   
+			   sentenceDetector = new SentenceDetectorME(mod);
+			   Dictionary d = mod.getAbbreviations();
+			    System.out.println(d.size());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} 
+		
+		for (String s:sentenceDetector.sentDetect("Sveiki. Mani sauc. Kristaps")) {
+			System.out.println(s);
+		}
+		
 
-		sentenceList = model.getSentenceList(text);
+		sentenceList = model.getSentenceList(text, sentenceDetector);
 
-		model.getWordList(sentenceList);
+		//model.getWordList(sentenceList);
 
 		view.setProgress("Progress: Veido teikumu tuvuma matricu, uzgaidiet...");
 
-		double[][] simMatrix = model.getSimilarityMatrix(sentenceList, view);
+		double[][] simMatrix = model.getSimilarityMatrix(sentenceList);
 
 		view.setProgress("Progress: Izpilda TextRank algoritmu, uzgaidiet...");
 

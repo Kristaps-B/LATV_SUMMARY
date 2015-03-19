@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 
@@ -43,6 +43,12 @@ public class Sentence {
 				wordList.add(new OneWord(wordArray[i], -1));
 			}
 		}
+		
+		Stemmer stemmer = new Stemmer();
+		
+		for (int i= 0; i < wordList.size(); i++) {
+			wordList.get(i).setStem(stemmer.stem(wordList.get(i).getWord()));
+		}
 
 	}
 
@@ -58,7 +64,7 @@ public class Sentence {
 		String rez = "";
 
 		for (OneWord w : wordList) {
-			rez += w.getWord() + " [" + w.getIndex() + "] ";
+			rez += w.getWord()+" ["+w.getStem()+"] ";
 		}
 
 		return rez;

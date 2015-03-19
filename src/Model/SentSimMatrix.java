@@ -1,7 +1,7 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
-import View.View;
+
 
 public class SentSimMatrix {
 
@@ -13,14 +13,15 @@ public class SentSimMatrix {
 		this.sentenceList = sentenceList;
 	}
 
-	public void createMatrix(View view) {
+	public void createMatrix() {
 		int dimension = sentenceList.size();
 		simMatrix = new double[dimension][dimension];
 
 		for (int i = 0; i < simMatrix.length; i++) {
 
-			view.setProgress("Progress: Veido teikumu tuvuma matricu (" + i
-					+ "/" + dimension + "), uzgaidiet...");
+			//view.setProgress("Progress: Veido teikumu tuvuma matricu (" + i
+			//		+ "/" + dimension + "), uzgaidiet...");
+			
 			for (int j = 0; j < simMatrix[i].length; j++) {
 
 				SentenceComparison sentenceComparison = new SentenceComparison(

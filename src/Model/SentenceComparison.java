@@ -1,10 +1,10 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 
 public class SentenceComparison {
 
-	private String[] wordArr = null;
+	private OneWord[] wordArr = null;
 	private int[] firstSentVector = null;
 	private int[] secondSentVector = null;
 	private String[] wordsArray = null;
@@ -26,7 +26,7 @@ public class SentenceComparison {
 		rank = findSentenceSimilarity(this.s1, this.s2);
 	}
 
-	public String[] getWordArr() {
+	public OneWord[] getWordArr() {
 		return wordArr;
 	}
 
@@ -39,19 +39,26 @@ public class SentenceComparison {
 		}
 
 		for (int i = 0; i < wordsArray.length; i++) {
-			String word = wordArr[i];
+			OneWord word = wordArr[i];
 			for (OneWord w : s1.getWordList()) {
-				if (wordComparison.isSameWords(w.getWord(), word)) {
+				if (word.getStem().equals(w.getStem())) {
 					wordsArray[i] += w.getWord() + " ";
+					
 				}
 			}
 			for (OneWord w : s2.getWordList()) {
-				if (wordComparison.isSameWords(w.getWord(), word)) {
+				if (word.getStem().equals(w.getStem())) {
 					wordsArray[i] += w.getWord() + " ";
 				}
 
 			}
 		}
+		
+		for (int i = 0; i<wordsArray.length; i++) {
+			wordsArray[i] = "["+wordArr[i].getStem()+"] " + wordsArray[i];
+		}
+		
+		
 
 		return wordsArray;
 	}
@@ -73,6 +80,7 @@ public class SentenceComparison {
 		for (OneWord w : s1.getWordList()) {
 			if (!isWordInList(wordList, w)) {
 				wordList.add(w);
+			
 			}
 		}
 		for (OneWord w : s2.getWordList()) {
@@ -81,6 +89,13 @@ public class SentenceComparison {
 			}
 
 		}
+		
+		/*
+		System.out.println("==========================================");
+		for (OneWord w: wordList) {
+			System.out.println(w.getWord()+" "+w.getIndex());
+		}
+		*/
 
 		// Novertejums
 		int[] vector_1 = new int[wordList.size()];
@@ -94,7 +109,7 @@ public class SentenceComparison {
 			for (OneWord w : s1.getWordList())
 			// for (int j=0; j<s1.getWordList().size(); j++)
 			{
-				if (w.getIndex() == word.getIndex()) {
+				if (w.getStem().equals(word.getStem())) {
 					vector_1[i] += 1;
 				}
 			}
@@ -107,7 +122,7 @@ public class SentenceComparison {
 
 			OneWord word = wordList.get(i);
 			for (OneWord w : s2.getWordList()) {
-				if (w.getIndex() == word.getIndex()) {
+				if (w.getStem().equals(word.getStem())) {
 					vector_2[i] += 1;
 				}
 			}
@@ -128,10 +143,10 @@ public class SentenceComparison {
 
 		cosO = Math.round(cosO * 1000.0) / 1000.0;
 
-		wordArr = new String[wordList.size()];
+		wordArr = new OneWord[wordList.size()];
 
 		for (int i = 0; i < wordArr.length; i++) {
-			wordArr[i] = wordList.get(i).getWord();
+			wordArr[i] = wordList.get(i);
 		}
 
 		firstSentVector = vector_1;
@@ -142,7 +157,7 @@ public class SentenceComparison {
 
 	private boolean isWordInList(ArrayList<OneWord> wordList, OneWord word) {
 		for (OneWord w : wordList) {
-			if (w.getIndex() == word.getIndex()) {
+			if (w.getStem().equals(word.getStem())) {
 				return true;
 			}
 		}

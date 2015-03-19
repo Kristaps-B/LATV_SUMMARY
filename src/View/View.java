@@ -8,8 +8,9 @@ import java.util.ArrayList;
 
 import javax.swing.event.ChangeListener;
 
-import Model.Sentence;
-import Model.SentenceComparison;
+import model.Sentence;
+import model.SentenceComparison;
+
 
 public abstract class View {
 

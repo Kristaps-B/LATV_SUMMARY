@@ -27,8 +27,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.BorderFactory;
 
-import Model.Sentence;
-import Model.SentenceComparison;
+import model.Sentence;
+import model.SentenceComparison;
+
 
 public class SummView extends View {
 
