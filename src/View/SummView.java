@@ -89,7 +89,7 @@ public class SummView extends View {
 
 	private void createWindow() {
 		// Veido logu
-		frame = new JFrame("LATV_SUMMARY 0.8.1(Kristaps Babrovskis ITI) ");
+		frame = new JFrame("LATV_SUMMARY 0.9.2(Kristaps B) ");
 		frame.setSize(840, 540);
 		frame.setLayout(new BorderLayout());
 
