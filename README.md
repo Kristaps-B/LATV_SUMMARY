@@ -5,4 +5,4 @@ Bakalaura darba praktiskas daļās programma priekš latviešu valodas rakstu ko
 
 Balstas uz TextRank algoritmu.
 
-Web versija ir pieējama: http://summary-kristapsb.rhcloud.com/web-latv-summary/
+Web versija ir pieejamā: http://summary-kristapsb.rhcloud.com/web-latv-summary/
